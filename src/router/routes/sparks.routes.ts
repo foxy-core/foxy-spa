@@ -3,7 +3,7 @@ import { RouteRecordRaw } from 'vue-router'
 
 export const sparksRoutes: RouteRecordRaw[] = [
   {
-    path: '/account/profile',
+    path: '/sparks',
     meta: { tag: SparksPage._TAG },
     children: [
       {

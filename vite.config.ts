@@ -4,8 +4,8 @@ import vue from '@vitejs/plugin-vue'
 
 import unpluginIcons from 'unplugin-icons/vite'
 import svgLoader from 'vite-svg-loader'
-import { FileSystemIconLoader } from 'unplugin-icons/loaders'
-import { optimize as optimizeSvg, OptimizedSvg } from 'svgo'
+import analyze from 'rollup-plugin-analyzer'
+import visualize from 'rollup-plugin-visualizer'
 
 export default defineConfig({
   plugins: [
@@ -25,6 +25,11 @@ export default defineConfig({
           },
         ],
       },
+    }),
+
+    analyze(),
+    visualize({
+      filename: path.resolve(__dirname, 'dist/_/dev/stats.html'),
     }),
   ],
   resolve: {
