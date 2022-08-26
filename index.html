@@ -5,9 +5,64 @@
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Foxy</title>
+
+    <style>
+      #splash {
+        position: fixed;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      @keyframes splash-pulse {
+        50% {
+          opacity: 0.5;
+        }
+      }
+      .splash-svg-animate-pulse {
+        animation: splash-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+      .splash-fade-out {
+        opacity: 0;
+        transition: all 500ms ease-out;
+      }
+    </style>
   </head>
   <body>
     <div id="app"></div>
+    <div id="splash">
+      <svg
+        width="86"
+        height="120"
+        viewBox="0 0 43 60"
+        fill="none"
+        class="splash-svg-animate-pulse"
+      >
+        <path
+          d="M21.8343 59.8384C33.3388 59.8384 42.7897 50.2357 42.7897 37.9109C42.7897 34.8857 42.643 31.6426 41.0504 26.6014C39.4578 21.5603 39.1378 20.9099 37.4544 17.7963C36.735 24.1486 32.8862 26.7971 31.9082 27.5888C31.9082 26.7648 28.0355 18.3879 24.5052 12.9391C21.0392 7.59337 17.8709 3.36003 15.1076 0.980713C15.1076 5.49804 13.902 12.2137 12.1739 15.6363C10.4471 19.0574 10.123 19.1824 7.96462 21.728C5.80761 24.2736 4.81712 25.0608 3.01216 28.1509C1.2086 31.2409 0.878906 35.3565 0.878906 38.3818C0.878906 50.7066 10.3298 59.8384 21.8343 59.8384Z"
+          fill="url(#paint0_linear_401_150)"
+        />
+        <defs>
+          <linearGradient
+            id="paint0_linear_401_150"
+            x1="21.8343"
+            y1="0.980713"
+            x2="21.8343"
+            y2="86.7732"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#FF740F" />
+            <stop offset="1" stop-color="#FFAD32" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
