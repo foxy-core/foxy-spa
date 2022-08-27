@@ -4,7 +4,7 @@ import {
   clearTokenValidity,
 } from './cookies'
 
-export const signOut = (navigate?: boolean) => {
+export const signOut = (navigate = true) => {
   clearAccessToken()
   clearRefreshToken()
   clearTokenValidity()

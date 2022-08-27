@@ -8,6 +8,7 @@ import {
 } from '@@/domain/auth'
 import { exists } from '@@/shared/guards'
 import { getAccessToken } from '@@/use-cases/auth'
+import { CardsPage } from '@@/domain/cards'
 
 export const redirectOnAuthMiddleware: NavigationGuard = (to, from, next) => {
   const accessToken = getAccessToken()
@@ -29,7 +30,7 @@ export const redirectOnAuthMiddleware: NavigationGuard = (to, from, next) => {
 
     case RedirectDecision.ToIndex: {
       return next({
-        name: 'index',
+        name: CardsPage.Cards,
       })
     }
   }
