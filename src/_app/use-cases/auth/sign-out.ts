@@ -9,6 +9,7 @@ export const signOut = (navigate = true) => {
   clearRefreshToken()
   clearTokenValidity()
 
+  console.log('cleared cookies')
   if (navigate) {
     // to cleanup stores and asyncData
     window.location.href = '/auth/sign-in'
