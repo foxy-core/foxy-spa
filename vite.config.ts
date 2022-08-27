@@ -32,6 +32,14 @@ export default defineConfig({
       filename: path.resolve(__dirname, 'dist/_/dev/stats.html'),
     }),
   ],
+  build: {
+    rollupOptions: {
+      manualChunks: {
+        'vue-chunk': ['vue', 'vue-router'],
+        'vendors-chunk': ['axios', 'zod'],
+      },
+    },
+  },
   resolve: {
     alias: [
       {
