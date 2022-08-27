@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
   import { useHead } from '@vueuse/head'
-  import { computed, ref, watch } from 'vue'
+  import { computed, ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
 
   import AuthorizedLayout from '@/layouts/authorized-layout.vue'

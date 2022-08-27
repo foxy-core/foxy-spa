@@ -3,6 +3,9 @@ import { useRouter } from 'vue-router'
 import { PokeResponseStatus } from '@@/shared/poke'
 import { usePokeApi } from '@@/use-cases/shared'
 import { Email, Password } from '@@/domain/accounts'
+import { useNotify } from '@@/use-cases/notifications'
+import { NotificationType } from '@@/domain/notifications'
+import { AuthenticationError } from '@@/infrastructure/dto/errors'
 
 import {
   getClientId,
@@ -18,11 +21,11 @@ type SignInInput = {
 
 export const useSignIn = () => {
   const pokeApi = usePokeApi()
-
+  const notify = useNotify()
   const router = useRouter()
 
   return async (input: SignInInput) => {
-    const result = await pokeApi.auth.signIn({
+    const response = await pokeApi.auth.signIn({
       input: {
         ...input,
         clientId: getClientId(),
@@ -30,18 +33,24 @@ export const useSignIn = () => {
       },
     })
 
-    if (result.status === PokeResponseStatus.Resolved) {
-      setTokenValidity(true, result.result.expiresIn)
-      setRefreshToken(result.result.refreshToken)
-      setAccessToken(result.result.token)
+    if (response.status === PokeResponseStatus.Resolved) {
+      setTokenValidity(true, response.result.expiresIn)
+      setRefreshToken(response.result.refreshToken)
+      setAccessToken(response.result.token)
       router.push('/')
       return
     }
 
-    // TODO: уведомления
-    // notify({
-    //   status: NotificationStatus.Error,
-    //   text: 'Ошибка при авторизации(',
-    // })
+    if (
+      [
+        AuthenticationError.BadCredentials,
+        AuthenticationError.UserNotFound,
+      ].includes(response.result.reason)
+    ) {
+      notify({
+        type: NotificationType.Error,
+        text: 'Кажется, где-то здесь опечатка. Проверь e-mail и пароль и попробуй еще раз',
+      })
+    }
   }
 }

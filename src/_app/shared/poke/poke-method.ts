@@ -1,3 +1,4 @@
+import { CommonError, InternalError } from '@@/infrastructure/dto/errors'
 import axios, { AxiosResponse } from 'axios'
 
 import { HttpMethod } from '../http-utils'
@@ -13,14 +14,20 @@ export type PokeMethodOptions = {
 }
 
 export const definePokeMethod =
-  <InputDTO, OutputDTO>(options: PokeMethodOptions) =>
-  async (input: PokeRequest<InputDTO>): Promise<PokeResponse<OutputDTO>> => {
+  <InputDTO, OutputDTO, Error extends string = CommonError | InternalError>(
+    options: PokeMethodOptions,
+  ) =>
+  async (
+    input: PokeRequest<InputDTO>,
+  ): Promise<PokeResponse<OutputDTO, Error>> => {
     try {
       input = (await options.before(input)) ?? input
     } catch (e) {
       return {
         status: PokeResponseStatus.Rejected,
-        reason: '',
+        result: {
+          reason: InternalError.Unknown,
+        },
       }
     }
 
@@ -38,7 +45,7 @@ export const definePokeMethod =
     }
 
     const { data } = (await axios(axiosOptions)) as AxiosResponse<
-      PokeResponse<OutputDTO>
+      PokeResponse<OutputDTO, Error>
     >
 
     if (data.status === PokeResponseStatus.Rejected) {

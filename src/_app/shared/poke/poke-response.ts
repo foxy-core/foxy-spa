@@ -3,12 +3,15 @@ export enum PokeResponseStatus {
   Rejected = 'rejected',
 }
 
-export type PokeResponse<OutputDTO> =
+export type PokeError<R extends string, E> = { reason: R } & E
+
+export type PokeResponse<OutputDTO, ErrorReason extends string> =
   | {
       status: PokeResponseStatus.Resolved
       result: OutputDTO
     }
   | {
       status: PokeResponseStatus.Rejected
-      reason: string
+      // TODO: types for error data to avoid using `as`?
+      result: PokeError<ErrorReason, any>
     }

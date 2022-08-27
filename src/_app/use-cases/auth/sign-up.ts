@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router'
 import { usePokeApi } from '@@/use-cases/shared'
 import { Email, Password } from '@@/domain/accounts'
 import { PokeResponseStatus } from '@@/shared/poke'
+import { useNotify } from '@@/use-cases/notifications'
 
 import {
   getClientId,
@@ -10,6 +11,8 @@ import {
   setRefreshToken,
   setTokenValidity,
 } from './cookies'
+import { NotificationType } from '@@/domain/notifications'
+import { AuthenticationError } from '@@/infrastructure/dto/errors'
 
 type SignUpInput = {
   email: Email
@@ -19,6 +22,7 @@ type SignUpInput = {
 export const useSignUp = () => {
   const pokeApi = usePokeApi()
   const router = useRouter()
+  const notify = useNotify()
 
   return async (input: SignUpInput) => {
     const result = await pokeApi.auth.signUp({
@@ -38,9 +42,11 @@ export const useSignUp = () => {
       return
     }
 
-    // notify({
-    //   status: NotificationStatus.Error,
-    //   text: 'Ошибка при авторизации(',
-    // })
+    if (result.result.reason === AuthenticationError.AccountAlreadyExists) {
+      notify({
+        type: NotificationType.Error,
+        text: 'Аккаунт с таким e-mail уже существует',
+      })
+    }
   }
 }

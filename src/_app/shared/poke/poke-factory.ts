@@ -54,7 +54,7 @@ export class PokeFactory {
     return input
   }
 
-  async _runOnError<T>(response: PokeResponse<T>) {
+  async _runOnError<T, E extends string>(response: PokeResponse<T, E>) {
     for await (const fn of this._onError) {
       await fn(response)
     }
