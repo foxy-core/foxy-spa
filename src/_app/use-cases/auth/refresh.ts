@@ -44,6 +44,9 @@ export const useRefresh = () => {
         refreshToken,
         clientId,
       },
+      meta: {
+        expectedErrors: true,
+      },
     })
 
     if (response.status === PokeResponseStatus.Rejected) {

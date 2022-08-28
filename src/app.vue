@@ -19,6 +19,9 @@
   import { providePokeApi } from '@@/use-cases/shared'
   import { getAccessToken, useRefresh } from '@@/use-cases/auth'
   import { unmountSplashScreen } from '@@/shared/splash'
+  import { CommonError } from '@@/infrastructure/dto/errors'
+  import { useNotify } from '@@/use-cases/notifications'
+  import { NotificationType } from '@@/domain/notifications'
 
   useHead({
     titleTemplate: chunk => (chunk ? `${chunk} | Foxy` : 'Foxy'),
@@ -26,15 +29,27 @@
 
   const pokeApi = providePokeApi()
   const refresh = useRefresh()
+  const notify = useNotify()
 
   pokeApi._factory // prettier stop it pls
     .beforeEach(refresh)
     .beforeEach(input => ({
       ...input,
       meta: {
+        ...(input.meta ?? {}),
         accessToken: getAccessToken(),
       },
     }))
+    .onError(async e => {
+      if (e.reason === CommonError.Unauthorized) {
+        await refresh()
+      } else {
+        notify({
+          text: `Неизвестная ошибка: ${e.reason}`,
+          type: NotificationType.Warning,
+        })
+      }
+    })
 
   const route = useRoute()
 

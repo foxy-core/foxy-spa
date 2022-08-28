@@ -1,7 +1,7 @@
 import { HttpMethod } from '@@/shared/http-utils'
 
 import { definePokeMethod, PokeMethodOptions } from './poke-method'
-import { PokeResponse } from './poke-response'
+import { PokeError, PokeResponse } from './poke-response'
 import { PokeRequest } from './poke-request'
 
 export type PokeFactoryOptions = {
@@ -36,7 +36,7 @@ export class PokeFactory {
     return this
   }
 
-  onError(fn: CallableFunction) {
+  onError(fn: (input: PokeError<string, unknown>) => void | Promise<void>) {
     this._onError.add(fn)
 
     return this

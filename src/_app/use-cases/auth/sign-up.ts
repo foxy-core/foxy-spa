@@ -31,6 +31,9 @@ export const useSignUp = () => {
         clientId: getClientId(),
         strategy: 'local',
       },
+      meta: {
+        expectedErrors: [AuthenticationError.AccountAlreadyExists],
+      },
     })
 
     if (result.status === PokeResponseStatus.Resolved) {
@@ -42,11 +45,9 @@ export const useSignUp = () => {
       return
     }
 
-    if (result.result.reason === AuthenticationError.AccountAlreadyExists) {
-      notify({
-        type: NotificationType.Error,
-        text: 'Аккаунт с таким e-mail уже существует',
-      })
-    }
+    notify({
+      type: NotificationType.Error,
+      text: 'Аккаунт с таким e-mail уже существует',
+    })
   }
 }

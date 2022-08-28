@@ -31,6 +31,12 @@ export const useSignIn = () => {
         clientId: getClientId(),
         strategy: 'local',
       },
+      meta: {
+        expectedErrors: [
+          AuthenticationError.BadCredentials,
+          AuthenticationError.UserNotFound,
+        ],
+      },
     })
 
     if (response.status === PokeResponseStatus.Resolved) {
@@ -41,16 +47,9 @@ export const useSignIn = () => {
       return
     }
 
-    if (
-      [
-        AuthenticationError.BadCredentials,
-        AuthenticationError.UserNotFound,
-      ].includes(response.result.reason)
-    ) {
-      notify({
-        type: NotificationType.Error,
-        text: 'Кажется, где-то здесь опечатка. Проверь e-mail и пароль и попробуй еще раз',
-      })
-    }
+    notify({
+      type: NotificationType.Error,
+      text: 'Кажется, где-то здесь опечатка. Проверь e-mail и пароль и попробуй еще раз',
+    })
   }
 }

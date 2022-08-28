@@ -48,7 +48,17 @@ export const definePokeMethod =
       PokeResponse<OutputDTO, Error>
     >
 
-    if (data.status === PokeResponseStatus.Rejected) {
+    const expectAllErrors =
+      typeof input.meta?.expectedErrors === 'boolean' &&
+      input.meta.expectedErrors
+
+    if (
+      !expectAllErrors &&
+      data.status === PokeResponseStatus.Rejected &&
+      !((input.meta?.expectedErrors as string[]) ?? []).includes(
+        data.result.reason,
+      )
+    ) {
       await options.onError(data)
     }
 

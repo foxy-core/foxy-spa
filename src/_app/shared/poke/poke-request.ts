@@ -5,4 +5,5 @@ export type PokeRequest<InputDTO> = {
 
 export type PokeRequestMeta = {
   accessToken?: string
+  expectedErrors?: string[] | boolean
 }
