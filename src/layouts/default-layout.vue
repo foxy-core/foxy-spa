@@ -12,7 +12,7 @@
       <slot />
     </main>
 
-    <BaseFooter class="mt-24 pb-8" />
+    <BaseFooter class="mt-8 pb-8" />
   </div>
 </template>
 

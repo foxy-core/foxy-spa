@@ -6,23 +6,32 @@ export const authRoutes: RouteRecordRaw[] = [
     path: '/auth',
     meta: {
       tag: AuthPage._TAG,
+      auth: PageAuthRequirements.NotAuthorized,
     },
     children: [
       {
         name: AuthPage.SignIn,
         path: 'sign-in',
         component: () => import('@/pages/auth/sign-in-page.vue'),
-        meta: {
-          auth: PageAuthRequirements.NotAuthorized,
-        },
       },
       {
         name: AuthPage.SignUp,
         path: 'sign-up',
         component: () => import('@/pages/auth/sign-up-page.vue'),
-        meta: {
-          auth: PageAuthRequirements.NotAuthorized,
-        },
+      },
+    ],
+  },
+  {
+    path: '/internal/redirect',
+    meta: {
+      tag: AuthPage._TAG,
+      auth: PageAuthRequirements.NotAuthorized,
+    },
+    children: [
+      {
+        name: AuthPage.OauthVk,
+        path: 'vk',
+        component: () => import('@/pages/auth/oauth/oauth-vk-page.vue'),
       },
     ],
   },

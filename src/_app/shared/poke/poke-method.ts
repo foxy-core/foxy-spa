@@ -1,5 +1,5 @@
 import { CommonError, InternalError } from '@@/infrastructure/dto/errors'
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 
 import { HttpMethod } from '../http-utils'
 import { PokeRequest } from './poke-request'
@@ -44,9 +44,30 @@ export const definePokeMethod =
       validateStatus: () => true,
     }
 
-    const { data } = (await axios(axiosOptions)) as AxiosResponse<
-      PokeResponse<OutputDTO, Error>
-    >
+    let result: PokeResponse<OutputDTO, Error>
+
+    try {
+      const { data } = (await axios(axiosOptions)) as AxiosResponse<
+        PokeResponse<OutputDTO, Error>
+      >
+
+      result = data
+    } catch (e) {
+      const err = e as AxiosError
+
+      if (
+        !(err.response?.data as PokeResponse<OutputDTO, Error>)?.result?.reason
+      ) {
+        result = {
+          status: PokeResponseStatus.Rejected,
+          result: {
+            reason: InternalError.Unknown,
+          },
+        }
+      } else {
+        result = (err.response?.data as PokeResponse<OutputDTO, Error>).result
+      }
+    }
 
     const expectAllErrors =
       typeof input.meta?.expectedErrors === 'boolean' &&
@@ -54,13 +75,13 @@ export const definePokeMethod =
 
     if (
       !expectAllErrors &&
-      data.status === PokeResponseStatus.Rejected &&
+      result.status === PokeResponseStatus.Rejected &&
       !((input.meta?.expectedErrors as string[]) ?? []).includes(
-        data.result.reason,
+        result.result.reason,
       )
     ) {
-      await options.onError(data)
+      await options.onError(result)
     }
 
-    return data
+    return result
   }

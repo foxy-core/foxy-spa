@@ -14,6 +14,15 @@ export type RefreshSignInInputDto = {
   clientId: string
 }
 
-export type SignInInputDto = LocalSignInInputDto | RefreshSignInInputDto
+export type VkSignInInputDto = {
+  strategy: 'vk'
+  code: string
+  clientId: string
+}
+
+export type SignInInputDto =
+  | LocalSignInInputDto
+  | RefreshSignInInputDto
+  | VkSignInInputDto
 
 export type SignInOutputDto = AuthOutputDto

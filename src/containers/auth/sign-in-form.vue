@@ -1,6 +1,6 @@
 <template>
   <form
-    class="max-w-lg flex flex-col space-y-3 w-full"
+    class="max-w-lg flex flex-col space-y-3 w-full min-h-full"
     @submit.prevent="submitForm"
   >
     <BaseTypography class="text-center">
@@ -40,11 +40,24 @@
         У меня нет аккаунта
       </BaseButton>
     </RouterLink>
+
+    <BaseButton
+      custom
+      class="bg-[#0077FF] hover:media-hover:bg-[#0066EE] text-white !mt-auto lg:!mt-3"
+      tag="a"
+      :href="VK_OAUTH_LINK"
+    >
+      <template #icon>
+        <IonLogoVk class="w-5 h-5" />
+      </template>
+      Войти через VK
+    </BaseButton>
   </form>
 </template>
 
 <script setup lang="ts">
   import LoginIcon from '~icons/heroicons-outline/login'
+  import IonLogoVk from '~icons/ion/logo-vk'
 
   import { emailValidator, passwordValidator } from '@@/domain/accounts'
   import { useForm } from '@@/shared/forms'
@@ -53,6 +66,9 @@
   import BaseInput from '@/components/ui/base-input.vue'
   import BaseButton from '@/components/ui/base-button.vue'
   import { useSignIn } from '@@/use-cases/auth'
+
+  const VK_OAUTH_LINK =
+    'https://oauth.vk.com/authorize?client_id=51403577&display=popup&redirect_uri=https://foxy.talkiiing.ru/internal/redirect/vk&scope=email&response_type=code&v=5.131'
 
   const signIn = useSignIn()
 
