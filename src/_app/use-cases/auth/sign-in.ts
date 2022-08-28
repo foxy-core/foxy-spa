@@ -13,6 +13,7 @@ import {
   setRefreshToken,
   setTokenValidity,
 } from './cookies'
+import { CardsPage } from '@@/domain/cards'
 
 type SignInInput = {
   email: Email
@@ -25,6 +26,11 @@ export const useSignIn = () => {
   const router = useRouter()
 
   return async (input: SignInInput) => {
+    const goToCards = () =>
+      router.replace({
+        name: CardsPage.Cards,
+      })
+
     const response = await pokeApi.auth.signIn({
       input: {
         ...input,
@@ -43,7 +49,7 @@ export const useSignIn = () => {
       setTokenValidity(true, response.result.expiresIn)
       setRefreshToken(response.result.refreshToken)
       setAccessToken(response.result.token)
-      router.push('/')
+      goToCards()
       return
     }
 

@@ -13,6 +13,7 @@ import {
 } from './cookies'
 import { NotificationType } from '@@/domain/notifications'
 import { AuthenticationError } from '@@/infrastructure/dto/errors'
+import { CardsPage } from '@@/domain/cards'
 
 type SignUpInput = {
   email: Email
@@ -25,6 +26,11 @@ export const useSignUp = () => {
   const notify = useNotify()
 
   return async (input: SignUpInput) => {
+    const goToCards = () =>
+      router.replace({
+        name: CardsPage.Cards,
+      })
+
     const result = await pokeApi.auth.signUp({
       input: {
         ...input,
@@ -37,11 +43,10 @@ export const useSignUp = () => {
     })
 
     if (result.status === PokeResponseStatus.Resolved) {
-      router.push('/')
-
       setRefreshToken(result.result.refreshToken)
       setAccessToken(result.result.token)
       setTokenValidity(true, result.result.expiresIn)
+      goToCards()
       return
     }
 
