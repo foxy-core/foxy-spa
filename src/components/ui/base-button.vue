@@ -43,7 +43,7 @@
     ]"
   >
     <template v-if="!!$slots.icon && !isLoading">
-      <div class="h-5 w-5" :class="{ 'mr-3': !circle }">
+      <div :class="{ 'mr-3': !circle }">
         <slot name="icon"></slot>
       </div>
       <slot></slot>

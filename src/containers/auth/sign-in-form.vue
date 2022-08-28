@@ -41,17 +41,28 @@
       </BaseButton>
     </RouterLink>
 
-    <BaseButton
-      custom
-      class="bg-[#0077FF] hover:media-hover:bg-[#0066EE] text-white !mt-auto lg:!mt-3"
-      tag="a"
-      :href="VK_OAUTH_LINK"
-    >
-      <template #icon>
-        <IonLogoVk class="w-5 h-5" />
-      </template>
-      Войти через VK
-    </BaseButton>
+    <div class="space-y-3 !mt-auto lg:!mt-0">
+      <hr class="w-1/2 mx-auto my-5" />
+
+      <div
+        class="flex flex-col lg:flex-row space-y-3 lg:space-y-0 lg:space-x-3"
+      >
+        <BaseButton
+          custom
+          outline
+          class="text-[#0077FF] border-[#0066EE] hover:media-hover:text-[#0066EE] hover:media-hover:border-[#0066EE] w-full"
+          tag="a"
+          :href="VK_OAUTH_LINK"
+        >
+          <template #icon>
+            <IonLogoVk class="w-5 h-5" />
+          </template>
+          Войти с VK
+        </BaseButton>
+
+        <TelegramWidget class="w-full" />
+      </div>
+    </div>
   </form>
 </template>
 
@@ -62,6 +73,7 @@
   import { emailValidator, passwordValidator } from '@@/domain/accounts'
   import { useForm } from '@@/shared/forms'
   import { AuthPage } from '@@/domain/auth'
+  import TelegramWidget from '@/containers/auth/telegram-widget.vue'
   import BaseTypography from '@/components/ui/base-typography.vue'
   import BaseInput from '@/components/ui/base-input.vue'
   import BaseButton from '@/components/ui/base-button.vue'

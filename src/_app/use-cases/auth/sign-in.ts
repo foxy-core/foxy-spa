@@ -14,6 +14,7 @@ import {
   setTokenValidity,
 } from './cookies'
 import { CardsPage } from '@@/domain/cards'
+import { SignInStrategy } from '@@/infrastructure/dto/auth'
 
 type SignInInput = {
   email: Email
@@ -35,7 +36,7 @@ export const useSignIn = () => {
       input: {
         ...input,
         clientId: getClientId(),
-        strategy: 'local',
+        strategy: SignInStrategy.Local,
       },
       meta: {
         expectedErrors: [

@@ -33,6 +33,11 @@ export const authRoutes: RouteRecordRaw[] = [
         path: 'vk',
         component: () => import('@/pages/auth/oauth/oauth-vk-page.vue'),
       },
+      {
+        name: AuthPage.OauthTg,
+        path: 'tg',
+        component: () => import('@/pages/auth/oauth/oauth-tg-page.vue'),
+      },
     ],
   },
 ]

@@ -3,4 +3,5 @@ export enum AuthPage {
   SignIn = 'SignIn',
   SignUp = 'SignUp',
   OauthVk = 'OauthVk',
+  OauthTg = 'OauthTg',
 }

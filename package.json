@@ -17,6 +17,7 @@
     "pinia": "^2.0.20",
     "qs": "^6.11.0",
     "rollup-plugin-visualizer": "^5.8.0",
+    "ufo": "^0.8.5",
     "universal-cookie": "^4.0.4",
     "vue": "^3.2.25",
     "vue-router": "^4.1.4",

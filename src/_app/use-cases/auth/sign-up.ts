@@ -14,6 +14,7 @@ import {
 import { NotificationType } from '@@/domain/notifications'
 import { AuthenticationError } from '@@/infrastructure/dto/errors'
 import { CardsPage } from '@@/domain/cards'
+import { SignInStrategy } from '@@/infrastructure/dto/auth'
 
 type SignUpInput = {
   email: Email

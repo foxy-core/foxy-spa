@@ -1,3 +1,4 @@
+import { SignInStrategy } from '@@/infrastructure/dto/auth'
 import { createFoxyPokeClient } from '@@/infrastructure/foxy-poke-api'
 import { exists } from '@@/shared/guards'
 import { PokeResponseStatus } from '@@/shared/poke'
@@ -39,7 +40,7 @@ export const useRefresh = () => {
     // so refresh
     const response = await pokeApi.auth.signIn({
       input: {
-        strategy: 'refreshToken',
+        strategy: SignInStrategy.RefreshToken,
         oldAccessToken: accessToken,
         refreshToken,
         clientId,

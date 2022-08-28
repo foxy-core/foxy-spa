@@ -1,7 +1,9 @@
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 
 import { usePokeApi } from '@@/use-cases/shared'
 import { PokeResponseStatus } from '@@/shared/poke'
+import { AuthPage } from '@@/domain/auth'
+import { TelegramOauthResult } from '@@/shared/telegram'
 
 import {
   getClientId,
@@ -9,33 +11,23 @@ import {
   setRefreshToken,
   setTokenValidity,
 } from '../cookies'
-import { AuthPage } from '@@/domain/auth'
+import { CardsPage } from '@@/domain/cards'
 import { SignInStrategy } from '@@/infrastructure/dto/auth'
 
-const VK_OAUTH_CODE_QUERY = 'code'
-
-export const useAuthViaVk = () => {
-  const route = useRoute()
+export const useAuthViaTg = () => {
   const router = useRouter()
   const pokeApi = usePokeApi()
 
-  return async () => {
-    const goToSignIn = () =>
-      router.replace({
-        name: AuthPage.SignIn,
-      })
-
-    const code = route.query[VK_OAUTH_CODE_QUERY]
-
-    if (typeof code !== 'string') {
-      return goToSignIn()
-    }
+  return async (data: TelegramOauthResult) => {
+    router.replace({
+      name: AuthPage.OauthTg,
+    })
 
     const response = await pokeApi.auth.signIn({
       input: {
-        code,
+        strategy: SignInStrategy.Telegram,
         clientId: getClientId(),
-        strategy: SignInStrategy.Vk,
+        data,
       },
       meta: {
         expectedErrors: true,
@@ -46,8 +38,15 @@ export const useAuthViaVk = () => {
       setTokenValidity(true, response.result.expiresIn)
       setRefreshToken(response.result.refreshToken)
       setAccessToken(response.result.token)
+
+      router.replace({
+        name: CardsPage.Cards,
+      })
+      return
     }
 
-    goToSignIn()
+    router.replace({
+      name: AuthPage.SignIn,
+    })
   }
 }

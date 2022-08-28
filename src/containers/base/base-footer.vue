@@ -1,5 +1,5 @@
 <template>
-  <footer class="w-full text-center text-gray-400 text-sm">
+  <footer class="w-full text-center text-gray-400 text-xs">
     © Foxy Core, 2022
     <br />
     All rights reserved
