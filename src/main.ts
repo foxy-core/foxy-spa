@@ -1,3 +1,5 @@
+import './styles/index.css'
+
 import { createApp } from 'vue'
 import App from './app.vue'
 import { createFoxyRouter } from '@/router'

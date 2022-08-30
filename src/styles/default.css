@@ -1,0 +1,13 @@
+body,
+html,
+#app {
+  @apply w-full h-full font-primary;
+}
+
+body {
+  @apply bg-background;
+}
+
+hr {
+  @apply border-surface-200;
+}

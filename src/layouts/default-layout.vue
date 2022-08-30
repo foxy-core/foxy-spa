@@ -6,13 +6,11 @@
     <BaseHeader class="fixed top-0 left-0 z-40" />
     <AppNotifications class="w-full fixed top-0 left-0 right-0 z-50" />
 
-    <main
-      class="flex-1 w-full mt-24 xs:mt-32 lg:mt-64 flex flex-col items-center"
-    >
+    <main class="flex-1 w-full mt-24 flex flex-col items-center">
       <slot />
     </main>
 
-    <BaseFooter class="mt-6 pb-6" />
+    <BaseFooter class="mt-6 pb-2" />
   </div>
 </template>
 

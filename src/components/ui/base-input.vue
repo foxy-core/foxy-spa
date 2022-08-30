@@ -1,7 +1,7 @@
 <template>
   <div class="relative h-12">
     <input
-      class="peer h-12 w-full appearance-none rounded-lg ring-1 bg-zinc-50 px-4 transition-colors duration-100 placeholder:invisible placeholder:opacity-0 hover:bg-zinc-100 focus:bg-zinc-100 focus:outline-none"
+      class="peer h-12 text-surface-800 w-full appearance-none rounded-lg ring-1 bg-surface-50 px-4 transition-colors duration-100 placeholder:invisible placeholder:opacity-0 hover:bg-surface-100 focus:bg-surface-100 focus:outline-none"
       :id="id"
       :placeholder="label || 'Input'"
       :value="modelValue"
@@ -10,24 +10,26 @@
       :type="type"
       :class="[
         {
-          'ring-zinc-100':
+          'ring-surface-100':
             !validationStatus ||
             validationStatus === ValidationStatus.NotValidated,
-          'ring-rose-100': validationStatus === ValidationStatus.Invalid,
-          'ring-green-100': validationStatus === ValidationStatus.Valid,
+          'ring-error-lightest dark:ring-error-lighter':
+            validationStatus === ValidationStatus.Invalid,
+          'ring-success-lightest dark:ring-success-lighter':
+            validationStatus === ValidationStatus.Valid,
         },
         !!label ? 'pt-[1.125rem] pb-1' : 'py-3',
       ]"
     />
     <label
       v-if="label"
-      class="pointer-events-none absolute top-1.5 left-4 select-none w-full text-xs text-zinc-400 transition-all duration-100 peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-1.5 peer-focus:text-xs"
+      class="pointer-events-none absolute top-1.5 left-4 select-none w-full text-xs text-surface-400 transition-all duration-100 peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-1.5 peer-focus:text-xs"
       :for="id"
     >
       <CustomTransition>
         <span
           v-if="errorString"
-          class="absolute top-0 left-0 text-rose-400 font-light"
+          class="absolute top-0 left-0 text-error-lighter font-light"
           >{{ errorString }}</span
         >
         <span v-else class="absolute top-0 left-0">
@@ -39,7 +41,7 @@
     <CustomTransition>
       <ExclamationIcon
         v-if="requirementNotSatisfied"
-        class="absolute w-6 h-6 text-rose-400 right-5 top-3"
+        class="absolute w-6 h-6 text-error-lighter right-5 top-3"
         title="This field is required"
       />
     </CustomTransition>

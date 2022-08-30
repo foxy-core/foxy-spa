@@ -1,9 +1,35 @@
 const typography = require('@tailwindcss/typography')
 const defaultTheme = require('tailwindcss/defaultTheme')
 
+const getCssVarName = name => `--fxui-${name}`
+
+const cssVar = name => `var(${name})`
+
+const getVarsForColors = (
+  name,
+  variants = ['lightest', 'lighter', 'default', 'darker', 'darkest'],
+) => {
+  const prefix = getCssVarName(`color-${name}-`)
+  const values = variants.map(variant => cssVar(`${prefix}${variant}`))
+
+  const result = Object.fromEntries(
+    variants.map((variant, i) => [variant, values[i]]),
+  )
+
+  if (result.default) {
+    return {
+      ...result,
+      DEFAULT: result.default,
+    }
+  }
+
+  return result
+}
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['src/**/*.{vue,ts,js}'],
+  darkMode: 'class',
   theme: {
     extend: {
       screens: {
@@ -11,7 +37,26 @@ module.exports = {
           raw: '(hover: hover)',
         },
       },
+      colors: {
+        primary: getVarsForColors('primary'),
+        secondary: getVarsForColors('secondary'),
+        error: getVarsForColors('error'),
+        success: getVarsForColors('success'),
+        surface: getVarsForColors(
+          'surface',
+          [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
+        ),
+        prose: getVarsForColors(
+          'prose',
+          [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
+        ),
+        white: cssVar(getCssVarName('color-white')),
+        black: cssVar(getCssVarName('color-black')),
+        background: cssVar(getCssVarName('color-background')),
+        'opaque-background': cssVar(getCssVarName('color-opaque-background')),
+      },
     },
+
     screens: {
       sm: '640px',
       md: '768px',

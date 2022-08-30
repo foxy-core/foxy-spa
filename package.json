@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "story:dev": "histoire dev",
     "story:build": "histoire build",
-    "story:preview": "histoire preview"
+    "story:preview": "histoire preview",
+    "dep-graph": "depcruise --ts-config tsconfig.json --include-only \"^src\" --output-type dot src | dot -T png > dependencygraph.png"
   },
   "dependencies": {
     "@vueuse/core": "^9.1.1",

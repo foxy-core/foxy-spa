@@ -1,6 +1,6 @@
 <template>
   <form
-    class="max-w-lg flex flex-col space-y-3 w-full min-h-full"
+    class="flex max-w-lg flex-col space-y-3 w-full justify-self-end min-h-full"
     @submit.prevent="submitForm"
   >
     <BaseTypography class="text-center">
@@ -20,7 +20,7 @@
       v-bind="inputs.password.value"
     />
 
-    <BaseButton variant="warning" :is-loading="isLoading">
+    <BaseButton :is-loading="isLoading">
       <template #icon><LoginIcon class="w-5 h-5" /></template>
       Войти
     </BaseButton>
@@ -30,13 +30,7 @@
       :to="{ name: AuthPage.SignUp }"
       v-slot="{ href, navigate }"
     >
-      <BaseButton
-        tag="a"
-        outline
-        variant="warning"
-        :href="href"
-        @click="navigate"
-      >
+      <BaseButton tag="a" outline :href="href" @click="navigate">
         У меня нет аккаунта
       </BaseButton>
     </RouterLink>

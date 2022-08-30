@@ -1,24 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Foxy</title>
 
+    <script>
+      const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)')
+      const theme = localStorage.getItem('foxy-theme')
+
+      if (theme === 'dark' || (!theme && darkThemeMq.matches)) {
+        document.querySelector('html')?.classList.add('dark')
+      }
+    </script>
+
     <style>
+      html,
+      body {
+        height: 100%;
+      }
+
       #splash {
         position: fixed;
         z-index: 9999;
         top: 0;
         left: 0;
         width: 100vw;
-        height: 100vh;
-        background: #fff;
+        height: 100%;
+        background: #fefefe;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+      }
+      .dark #splash {
+        background: #171719;
       }
       @keyframes splash-pulse {
         50% {

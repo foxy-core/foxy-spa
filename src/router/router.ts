@@ -6,8 +6,8 @@ import {
   accountRoutes,
   profilesRoutes,
   cardsRoutes,
+  sparksRoutes,
 } from './routes'
-import { sparksRoutes } from './routes/sparks.routes'
 
 export const createFoxyRouter = () => {
   const router = createRouter({

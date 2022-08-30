@@ -16,27 +16,23 @@
       !custom &&
         (outline
           ? {
-              'border-sky-500 text-sky-500 media-hover:hover:border-sky-600 media-hover:hover:text-sky-600':
+              'border-primary text-primary media-hover:hover:border-primary-darker media-hover:hover:text-primary-darker':
                 variant === 'primary',
-              'border-zinc-500 text-zinc-500 media-hover:hover:border-zinc-600 media-hover:hover:text-zinc-600':
+              'border-secondary text-secondary media-hover:hover:border-secondary-darker media-hover:hover:text-secondary-darker':
                 variant === 'secondary',
-              'border-red-500 text-red-500 media-hover:hover:border-red-600 media-hover:hover:text-red-600':
+              'border-error text-error media-hover:hover:border-error-darker media-hover:hover:text-error-darker':
                 variant === 'error',
-              'border-amber-500 text-amber-500 media-hover:hover:border-amber-600 media-hover:hover:text-amber-600':
-                variant === 'warning',
-              'border-green-500 text-green-500 media-hover:hover:border-green-600 media-hover:hover:text-green-600':
+              'border-success text-success media-hover:hover:border-success-darker media-hover:hover:text-success-darker':
                 variant === 'success',
             }
           : {
-              'bg-sky-500 text-white media-hover:hover:bg-sky-600':
+              'bg-primary text-white media-hover:hover:bg-primary-darker':
                 variant === 'primary',
-              'bg-zinc-200 text-zinc-700 media-hover:hover:bg-zinc-200':
+              'bg-secondary text-surface-700 media-hover:hover:bg-secondary-darker':
                 variant === 'secondary',
-              'bg-red-500 text-white media-hover:hover:bg-red-600':
+              'bg-error text-white media-hover:hover:bg-error-darker':
                 variant === 'error',
-              'bg-amber-500 text-white media-hover:hover:bg-amber-600':
-                variant === 'warning',
-              'bg-green-500 text-white media-hover:hover:bg-green-600':
+              'bg-success text-white media-hover:hover:bg-success-darker':
                 variant === 'success',
               'bg-opacity-80': semitransparent,
             }),
@@ -58,10 +54,10 @@
 </template>
 
 <script setup lang="ts">
-  import CubeIcon from '~icons/heroicons-outline/cube-transparent'
+  import CubeIcon from '~icons/heroicons-solid/cube-transparent'
 
   export interface ButtonProps {
-    variant?: 'primary' | 'secondary' | 'error' | 'warning' | 'success'
+    variant?: 'primary' | 'secondary' | 'error' | 'success'
     tag?: 'a' | 'div' | 'button'
     shadow?: boolean
     center?: boolean

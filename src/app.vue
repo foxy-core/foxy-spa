@@ -73,17 +73,3 @@
 
   refresh()
 </script>
-
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&family=Ubuntu:wght@300;400;500;700&display=swap');
-
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-
-  body,
-  html,
-  #app {
-    @apply w-full h-full font-primary;
-  }
-</style>

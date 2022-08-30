@@ -1,8 +1,8 @@
 <template>
   <header
-    class="text-center py-4 bg-white w-full h-fit bg-opacity-80 backdrop-blur-md"
+    class="text-center pt-6 pb-2 bg-opaque-background w-full h-fit backdrop-blur-md"
   >
-    <FoxyMainLogo height="24" class="inline" />
+    <FoxyMainLogo height="32" class="inline text-surface-900" />
   </header>
 </template>
 

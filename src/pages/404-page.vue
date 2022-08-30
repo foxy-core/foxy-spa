@@ -10,7 +10,7 @@
       </p>
     </BaseTypography>
 
-    <BaseButton tag="a" href="/" variant="warning">
+    <BaseButton tag="a" href="/">
       <template #icon>
         <SearchIcon class="w-5 h-5" />
       </template>

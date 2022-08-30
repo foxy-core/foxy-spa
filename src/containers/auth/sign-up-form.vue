@@ -26,7 +26,7 @@
       v-bind="inputs.confirmPassword.value"
     />
 
-    <BaseButton variant="warning" :is-loading="isLoading">
+    <BaseButton :is-loading="isLoading">
       <template #icon><LoginIcon class="w-5 h-5" /></template>
       Зарегистрироваться
     </BaseButton>
@@ -36,13 +36,7 @@
       :to="{ name: AuthPage.SignIn }"
       v-slot="{ href, navigate }"
     >
-      <BaseButton
-        tag="a"
-        outline
-        variant="warning"
-        :href="href"
-        @click="navigate"
-      >
+      <BaseButton tag="a" outline :href="href" @click="navigate">
         Я уже зарегистрирован
       </BaseButton>
     </RouterLink>
