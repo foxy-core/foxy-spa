@@ -1,28 +1,139 @@
+import { computed, ComputedRef, ref, Ref } from 'vue'
+
 import { ValidationStatus, Validator } from '@@/domain/validation'
-import { computed, reactive, ref, UnwrapNestedRefs } from 'vue'
+import { executeOrGet } from '@@/shared/lang-utils'
+import { exists } from '@@/shared/guards'
 
-type FormFieldOption<Obj, Val> = {
-  initialValue?: Val
-  validator?: Validator<Val, Obj>
+const V_MODEL_VALUE_PROP = 'modelValue'
+const V_MODEL_EVENT_PROP = 'onUpdate:modelValue'
+
+export const enum FormFieldType {
+  Input = 'input',
+  Multipicker = 'multipicker',
 }
 
-type Form<Obj> = {
-  [key in keyof Obj]: FormFieldOption<Obj, Obj[key]>
+type FormFieldOptions<T, F extends FormFieldType, O = {}> = O & {
+  type: F
+  initialValue?: T | (() => T)
+  validator?: Validator<T, any>
+  /**
+   * @default false
+   */
+  immediate?: boolean
 }
 
-type FormOptions<Obj> = {
-  onSubmitted?: (state: Obj) => Promise<void> | void
-  fields: Form<Obj>
+type FormFieldBinding<T, B = {}> = B & {
+  [V_MODEL_VALUE_PROP]: T
+  [V_MODEL_EVENT_PROP]: (value: T) => unknown
+  validationStatus: ValidationStatus
+  errorString?: string
 }
 
-export const useForm = <T>({ onSubmitted, fields }: FormOptions<T>) => {
-  const state = reactive<Partial<T>>({})
-  const validationState = reactive<Record<string | number | symbol, boolean>>(
-    {},
-  )
+type WithRequirement<T = {}> = T & {
+  requirementNotSatisfied: boolean
+}
 
+type FormInputFieldType = string
+type FormInputFieldOptions = FormFieldOptions<
+  FormInputFieldType,
+  FormFieldType.Input
+>
+type FormInputFieldBinding = FormFieldBinding<
+  FormInputFieldType,
+  WithRequirement
+>
+
+type FormMultipickerFieldType = string[]
+type FormMultipickerFieldOptions = FormFieldOptions<
+  FormMultipickerFieldType,
+  FormFieldType.Multipicker
+>
+type FormMultipickerFieldBinding = FormFieldBinding<FormMultipickerFieldType>
+
+type FormFieldResultOptions<T extends FormFieldType> =
+  T extends FormFieldType.Input
+    ? FormInputFieldOptions
+    : T extends FormFieldType.Multipicker
+    ? FormMultipickerFieldOptions
+    : never
+
+type FormFieldResultBinding<T extends FormFieldType> =
+  T extends FormFieldType.Input
+    ? FormInputFieldBinding
+    : T extends FormFieldType.Multipicker
+    ? FormMultipickerFieldBinding
+    : never
+
+type InferFieldType<T> = [T] extends [
+  {
+    type: infer F
+  },
+]
+  ? F
+  : never
+
+type InferFieldStateType<T> = [T] extends [
+  {
+    type: infer F
+  },
+]
+  ? F extends FormFieldType.Input
+    ? FormInputFieldType
+    : F extends FormFieldType.Multipicker
+    ? FormMultipickerFieldType
+    : never
+  : never
+
+type ExtractFieldTypes<O extends UseFormFieldsOption> = {
+  [key in keyof O]: InferFieldType<O[key]>
+}
+
+type ExtractFieldStateTypes<O extends UseFormFieldsOption> = {
+  [key in keyof O]: InferFieldStateType<O[key]>
+}
+
+type UseFormFieldsOption = Record<string, FormFieldResultOptions<FormFieldType>>
+
+type UseFormOptions<
+  F extends UseFormFieldsOption,
+  S extends ExtractFieldStateTypes<F>,
+> = {
+  onSubmitted?(state: S): Promise<void> | void
+  fields: F
+  state?: Ref<Partial<S>>
+}
+
+type UseFormResult<
+  F extends UseFormFieldsOption,
+  T extends ExtractFieldTypes<F>,
+  S extends ExtractFieldStateTypes<F>,
+> = {
+  submitForm(): Promise<void>
+  isLoading: ComputedRef<boolean>
+  state: ComputedRef<S>
+  bindings: {
+    [key in keyof T]: ComputedRef<
+      FormFieldResultBinding<T[key] extends FormFieldType ? T[key] : never>
+    >
+  }
+}
+
+type ValidObjectKeys = string | number | symbol
+
+type ValidationState = Record<ValidObjectKeys, boolean>
+
+export const useForm = <
+  F extends UseFormFieldsOption,
+  T extends ExtractFieldTypes<F> = ExtractFieldTypes<F>,
+  S extends ExtractFieldStateTypes<F> = ExtractFieldStateTypes<F>,
+>({
+  onSubmitted,
+  fields,
+  state = ref({}),
+}: UseFormOptions<F, S>): UseFormResult<F, T, S> => {
+  const validationState = ref<ValidationState>({})
   const isAllValid = computed(() =>
-    Object.keys(fields).every(key => validationState[key]),
+    Object.keys(fields).every(key => validationState.value[key]),
   )
 
   const isLoading = ref(false)
@@ -33,65 +144,74 @@ export const useForm = <T>({ onSubmitted, fields }: FormOptions<T>) => {
 
     if (isAllValid.value) {
       isLoading.value = true
-      // TODO: catch error here
-      await onSubmitted?.(state as T)
+      await onSubmitted?.(state.value as S)
       isLoading.value = false
     }
   }
 
-  return {
-    submitForm,
-    isLoading,
-    state: computed(() => state),
-    inputs: Object.fromEntries(
-      Object.entries(fields).map(entry => {
-        const key = entry[0] as keyof T
-        const { initialValue, validator } = entry[1] as FormFieldOption<
-          T,
-          T[keyof T]
-        >
+  const bindings = Object.fromEntries(
+    Object.entries(fields).map(entry => {
+      const key = entry[0] as keyof F
+      const { initialValue, validator, immediate, type } =
+        entry[1] as F[keyof F]
 
-        if (initialValue) {
-          state[key] = initialValue as UnwrapNestedRefs<Partial<T>>[keyof T]
-        }
+      if (exists(initialValue)) {
+        state.value[key] = executeOrGet(initialValue) as S[keyof S]
+      }
 
-        const modelValue = computed(() => state[key])
+      const modelValue = computed(() => state.value[key])
 
-        const onUpdate = (value: T[keyof T]) => {
-          // @ts-ignore
-          state[key] = value === '' ? undefined : value
-        }
+      const onUpdate = (value: S[keyof S]) => {
+        state.value[key] = value === '' ? undefined : (value as S[keyof S])
+      }
 
-        const doValidate = computed(
-          () =>
-            isFormSubmitted.value ||
-            (modelValue.value !== undefined &&
-              modelValue.value !== null &&
-              !isFormSubmitted.value),
+      const doValidate = computed(
+        () =>
+          isFormSubmitted.value ||
+          (modelValue.value !== undefined &&
+            modelValue.value !== null &&
+            !isFormSubmitted.value),
+      )
+
+      const comp = computed(() => {
+        const validated = validator?.(
+          state.value[key] as S[keyof S],
+          state.value as S,
         )
+        validationState.value[key] = validated
+          ? validated.requirementSatisfied &&
+            validated.validationStatus === ValidationStatus.Valid
+          : true
 
-        const comp = computed(() => {
-          const validated = validator?.(state[key] as T[keyof T], state as T)
-          validationState[key] = validated
-            ? validated.requirementSatisfied &&
-              validated.validationStatus === ValidationStatus.Valid
-            : true
-
-          return {
-            errorString: doValidate.value ? validated?.errorMessage : undefined,
-            modelValue: modelValue.value,
-            validationStatus: doValidate.value
+        const binding = {
+          errorString: doValidate.value ? validated?.errorMessage : undefined,
+          modelValue: modelValue.value,
+          validationStatus:
+            immediate || doValidate.value
               ? validated?.validationStatus
               : ValidationStatus.NotValidated,
-            requirementNotSatisfied: doValidate.value
-              ? !validated?.requirementSatisfied
-              : false,
-            'onUpdate:modelValue': onUpdate,
-          }
-        })
+          'onUpdate:modelValue': onUpdate,
+          ...(type === FormFieldType.Input
+            ? {
+                requirementNotSatisfied: doValidate.value
+                  ? !validated?.requirementSatisfied
+                  : false,
+              }
+            : {}),
+        }
 
-        return [key, comp]
-      }),
-    ),
+        return binding
+      })
+
+      return [key, comp]
+    }),
+  )
+
+  return {
+    submitForm,
+    isLoading: computed(() => isLoading.value),
+    state: computed(() => state.value as S),
+    // @ts-ignore
+    bindings: bindings,
   }
 }

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { ValidationStatus, zodValidator } from '@@/domain/validation'
+import { ValidationStatus, Validator, zodValidator } from '@@/domain/validation'
 
 const Email = z.string().email({
   message: 'Неверный e-mail',
@@ -16,12 +16,12 @@ export const emailValidator = zodValidator(Email)
 
 export const passwordValidator = zodValidator(Password)
 
-export const confirmPasswordValidator = (
-  confirmation: string,
-  state: {
+export const confirmPasswordValidator: Validator<
+  string,
+  {
     password: Password
-  },
-) => {
+  }
+> = (confirmation, state) => {
   if (!confirmation) {
     return {
       validationStatus: ValidationStatus.Invalid,

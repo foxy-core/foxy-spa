@@ -14,7 +14,14 @@ export const profilesRoutes: RouteRecordRaw[] = [
       {
         name: ProfilesPage.CreateProfile,
         path: 'create',
-        component: () => import('@/pages/profile/create-profile-page.vue'),
+        // component: () => import('@/pages/profile/create-profile-page.vue'),
+        components: {
+          default: () => import('@/pages/profile/create-profile-page.vue'),
+          headerLeft: () =>
+            import(
+              '@/containers/profiles/create-profile-wizard/back-button.vue'
+            ),
+        },
       },
     ],
   },

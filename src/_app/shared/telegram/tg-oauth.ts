@@ -40,8 +40,6 @@ export const openTelegramPopup = (botId: string, origin: string) => {
 
   const url = getTelegramPopupUrl(botId, origin)
 
-  console.log(url)
-
   window.open(
     getTelegramPopupUrl(botId, origin),
     'telegram_oauth',

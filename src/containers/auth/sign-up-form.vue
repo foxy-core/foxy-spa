@@ -11,19 +11,19 @@
       label="E-mail"
       type="email"
       autocomplete="e-mail"
-      v-bind="inputs.email.value"
+      v-bind="email"
     />
     <BaseInput
       label="Пароль"
       type="password"
       autocomplete="new-password"
-      v-bind="inputs.password.value"
+      v-bind="password"
     />
     <BaseInput
       label="Подтвердите пароль"
       type="password"
       autocomplete="new-password"
-      v-bind="inputs.confirmPassword.value"
+      v-bind="confirmPassword"
     />
 
     <BaseButton :is-loading="isLoading">
@@ -51,7 +51,7 @@
     passwordValidator,
   } from '@@/domain/accounts'
   import { useSignUp } from '@@/use-cases/auth'
-  import { useForm } from '@@/shared/forms'
+  import { FormFieldType, useForm } from '@@/shared/forms'
   import BaseInput from '@/components/ui/base-input.vue'
   import BaseButton from '@/components/ui/base-button.vue'
   import BaseTypography from '@/components/ui/base-typography.vue'
@@ -59,20 +59,23 @@
 
   const signUp = useSignUp()
 
-  const { inputs, submitForm, isLoading } = useForm<{
-    email: string
-    password: string
-    confirmPassword: string
-  }>({
+  const {
+    bindings: { email, password, confirmPassword },
+    submitForm,
+    isLoading,
+  } = useForm({
     fields: {
       email: {
         validator: emailValidator,
+        type: FormFieldType.Input,
       },
       password: {
         validator: passwordValidator,
+        type: FormFieldType.Input,
       },
       confirmPassword: {
         validator: confirmPasswordValidator,
+        type: FormFieldType.Input,
       },
     },
     onSubmitted: async state => {

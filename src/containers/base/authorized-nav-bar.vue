@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="bg-opaque-background backdrop-blur-md xs:h-20 px-8 rounded-2xl flex flex-row items-center justify-evenly"
+    class="bg-opaque-background backdrop-blur-md xs:h-20 px-8 rounded-t-2xl flex flex-row items-center justify-evenly"
   >
     <RouterLink
       class="w-full h-16 flex items-center justify-center"

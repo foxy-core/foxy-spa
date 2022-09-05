@@ -11,13 +11,13 @@
       label="E-mail"
       type="email"
       autocomplete="e-mail"
-      v-bind="inputs.email.value"
+      v-bind="email"
     />
     <BaseInput
       label="Пароль"
       type="password"
       autocomplete="current-password"
-      v-bind="inputs.password.value"
+      v-bind="password"
     />
 
     <BaseButton :is-loading="isLoading">
@@ -65,7 +65,7 @@
   import IonLogoVk from '~icons/ion/logo-vk'
 
   import { emailValidator, passwordValidator } from '@@/domain/accounts'
-  import { useForm } from '@@/shared/forms'
+  import { FormFieldType, useForm } from '@@/shared/forms'
   import { AuthPage } from '@@/domain/auth'
   import TelegramWidget from '@/containers/auth/telegram-widget.vue'
   import BaseTypography from '@/components/ui/base-typography.vue'
@@ -78,16 +78,19 @@
 
   const signIn = useSignIn()
 
-  const { inputs, submitForm, isLoading } = useForm<{
-    email: string
-    password: string
-  }>({
+  const {
+    bindings: { email, password },
+    submitForm,
+    isLoading,
+  } = useForm({
     fields: {
       email: {
         validator: emailValidator,
+        type: FormFieldType.Input,
       },
       password: {
         validator: passwordValidator,
+        type: FormFieldType.Input,
       },
     },
     onSubmitted: async state => {

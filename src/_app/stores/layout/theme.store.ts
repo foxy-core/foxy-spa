@@ -8,8 +8,6 @@ const DARK_THEME_CLASS = 'dark'
 export const useThemeStore = defineStore('layout/theme', () => {
   const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)')
 
-  console.log(localStorage.getItem(LOCAL_STORAGE_THEME_KEY))
-
   const currentTheme = ref<Theme>(
     (localStorage.getItem(LOCAL_STORAGE_THEME_KEY) as Theme) ??
       (darkThemeMq.matches ? Theme.Dark : Theme.Light),

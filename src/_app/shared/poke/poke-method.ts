@@ -18,7 +18,7 @@ export const definePokeMethod =
     options: PokeMethodOptions,
   ) =>
   async (
-    input: PokeRequest<InputDTO>,
+    input: PokeRequest<InputDTO> = {},
   ): Promise<PokeResponse<OutputDTO, Error>> => {
     try {
       input = (await options.before(input)) ?? input
