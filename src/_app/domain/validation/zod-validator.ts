@@ -1,10 +1,16 @@
-import { z, ZodType } from 'zod'
+import { z, ZodArray, ZodIssue, ZodType, ZodTypeAny } from 'zod'
 import { ValidationStatus } from './validation-status'
 import { Validator } from './validator'
 
+const isZodArray = <T extends ZodTypeAny>(
+  schema: ZodType,
+): schema is ZodArray<T> => schema instanceof ZodArray
+
 // zod не возвращает отдельной ошибки вроде requirement not satisfied
-const isRequiredError = (error: z.ZodIssue) =>
+const isRequiredError = (error: ZodIssue) =>
   error.code === 'invalid_type' && error.received === 'undefined'
+
+const isMaximumExceededError = (error: ZodIssue) => error.code === 'too_big'
 
 const getZodParseErrors = (schema: z.Schema, value: unknown) => {
   if (!schema) {
@@ -41,9 +47,14 @@ export const zodValidator =
         ? ValidationStatus.Valid
         : ValidationStatus.Invalid
 
+    const maximumExceeded = isZodArray(schema)
+      ? validationErrors?.some(isMaximumExceededError)
+      : undefined
+
     return {
       requirementSatisfied,
       validationStatus,
       errorMessage: firstError?.message,
+      maximumExceeded,
     }
   }

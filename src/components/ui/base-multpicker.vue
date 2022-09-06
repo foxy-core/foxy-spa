@@ -23,11 +23,12 @@
       >
         <div
           class="px-4 py-1 rounded-full transition-all duration-100 ease-in-out select-none cursor-pointer"
-          :class="
+          :class="[
             modelValue.includes(key)
               ? 'ring-inset ring-[1.5px] ring-primary-lighter text-surface-800'
-              : 'bg-surface-100 text-surface-600 media-hover:hover:bg-surface-50'
-          "
+              : 'bg-surface-100 text-surface-600 media-hover:hover:bg-surface-50',
+            shakingKeys.includes(key) && 'animate-shake',
+          ]"
         >
           {{ displayValue }}
         </div>
@@ -37,6 +38,7 @@
 </template>
 
 <script setup lang="ts">
+  import { nextTick, ref } from 'vue'
   import CustomTransition from './custom-transition.vue'
   export type PickerOption = {
     displayValue: string
@@ -47,11 +49,14 @@
     options: PickerOption[][]
     modelValue: string[]
     errorString?: string
+    maximumExceeded?: boolean
   }>()
 
   const emit = defineEmits<{
     (event: 'update:modelValue', modelValue: string[]): void
   }>()
+
+  const shakingKeys = ref<string[]>([])
 
   const onClick = (key: string) => {
     if (props.modelValue.includes(key)) {
@@ -62,5 +67,15 @@
     } else {
       emit('update:modelValue', [...props.modelValue, key])
     }
+
+    nextTick(() => {
+      if (props.maximumExceeded) {
+        shakingKeys.value.push(key)
+
+        setTimeout(() => {
+          shakingKeys.value = shakingKeys.value.filter(v => v !== key)
+        }, 500)
+      }
+    })
   }
 </script>

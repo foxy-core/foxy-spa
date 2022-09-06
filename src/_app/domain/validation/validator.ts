@@ -7,4 +7,5 @@ export type Validator<T, S> = (
   validationStatus: ValidationStatus
   errorMessage?: string
   requirementSatisfied: boolean
+  maximumExceeded?: boolean
 }

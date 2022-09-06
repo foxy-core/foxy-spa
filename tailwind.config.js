@@ -55,6 +55,34 @@ module.exports = {
         background: cssVar(getCssVarName('color-background')),
         'opaque-background': cssVar(getCssVarName('color-opaque-background')),
       },
+      animation: {
+        shake: 'shake .3s linear',
+      },
+      keyframes: {
+        shake: {
+          '0%': {
+            transform: 'translateX(0px)',
+          },
+          '10%': {
+            transform: 'translateX(4px)',
+          },
+          '30%': {
+            transform: 'translateX(-4px)',
+          },
+          '50%': {
+            transform: 'translateX(2px)',
+          },
+          '70%': {
+            transform: 'translateX(-2px)',
+          },
+          '90%': {
+            transform: 'translateX(1px)',
+          },
+          '100%': {
+            transform: 'translateX(0)',
+          },
+        },
+      },
     },
 
     screens: {

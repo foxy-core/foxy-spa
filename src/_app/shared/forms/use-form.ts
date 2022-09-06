@@ -33,6 +33,10 @@ type WithRequirement<T = {}> = T & {
   requirementNotSatisfied: boolean
 }
 
+type WithMaximum<T = {}> = T & {
+  maximumExceeded: boolean
+}
+
 type FormInputFieldType = string
 type FormInputFieldOptions = FormFieldOptions<
   FormInputFieldType,
@@ -48,7 +52,10 @@ type FormMultipickerFieldOptions = FormFieldOptions<
   FormMultipickerFieldType,
   FormFieldType.Multipicker
 >
-type FormMultipickerFieldBinding = FormFieldBinding<FormMultipickerFieldType>
+type FormMultipickerFieldBinding = FormFieldBinding<
+  FormMultipickerFieldType,
+  WithMaximum
+>
 
 type FormFieldResultOptions<T extends FormFieldType> =
   T extends FormFieldType.Input
@@ -161,10 +168,6 @@ export const useForm = <
 
       const modelValue = computed(() => state.value[key])
 
-      const onUpdate = (value: S[keyof S]) => {
-        state.value[key] = value === '' ? undefined : (value as S[keyof S])
-      }
-
       const doValidate = computed(
         () =>
           isFormSubmitted.value ||
@@ -172,15 +175,38 @@ export const useForm = <
             modelValue.value !== null &&
             !isFormSubmitted.value),
       )
+      const validationResult = ref<
+        ReturnType<Validator<unknown, unknown>> | undefined
+      >()
+
+      const onUpdate = (value: S[keyof S]) => {
+        if (type === FormFieldType.Multipicker) {
+          const validated = validator?.(value, state.value)
+
+          if (exists(validated)) {
+            if (validated.maximumExceeded) {
+              validationResult.value = validated
+              // If maximum exceeded we need to display error message and prevent from updating state
+              // Could be refactored
+              return
+            } else {
+              validationResult.value = undefined
+            }
+          }
+        }
+
+        state.value[key] = value === '' ? undefined : (value as S[keyof S])
+      }
 
       const comp = computed(() => {
-        const validated = validator?.(
-          state.value[key] as S[keyof S],
-          state.value as S,
-        )
-        validationState.value[key] = validated
-          ? validated.requirementSatisfied &&
-            validated.validationStatus === ValidationStatus.Valid
+        const validated =
+          validationResult.value ??
+          validator?.(state.value[key] as S[keyof S], state.value)
+        validationState.value[key] = !validationResult.value
+          ? validated
+            ? validated.requirementSatisfied &&
+              validated.validationStatus === ValidationStatus.Valid
+            : true
           : true
 
         const binding = {
@@ -191,11 +217,18 @@ export const useForm = <
               ? validated?.validationStatus
               : ValidationStatus.NotValidated,
           'onUpdate:modelValue': onUpdate,
+
           ...(type === FormFieldType.Input
             ? {
                 requirementNotSatisfied: doValidate.value
                   ? !validated?.requirementSatisfied
                   : false,
+              }
+            : {}),
+
+          ...(type === FormFieldType.Multipicker
+            ? {
+                maximumExceeded: validated?.maximumExceeded,
               }
             : {}),
         }
