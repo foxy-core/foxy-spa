@@ -1,15 +1,15 @@
 <template>
   <div class="flex flex-col w-full space-y-6">
-    <p
-      class="w-fit mx-auto transition-all duration-150 rounded-full text-center text-xs h-8 py-2 px-3 text-error-lighter"
-      :class="
-        errorString && 'bg-opaque-background backdrop-blur-md sticky top-20'
-      "
-    >
-      <CustomTransition>
-        <span v-if="errorString">{{ errorString }}</span>
+    <div class="h-8 sticky top-20 mx-auto">
+      <CustomTransition type="bottom">
+        <p
+          v-if="errorString"
+          class="bg-opaque-background backdrop-blur-md text-center text-xs h-8 py-2 px-4 text-error-lighter rounded-2xl"
+        >
+          {{ errorString }}
+        </p>
       </CustomTransition>
-    </p>
+    </div>
     <div
       class="ring-inset flex flex-row flex-wrap"
       v-for="(row, i) in options"
