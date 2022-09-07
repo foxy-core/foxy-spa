@@ -8,4 +8,5 @@ export type Validator<T, S> = (
   errorMessage?: string
   requirementSatisfied: boolean
   maximumExceeded?: boolean
+  minimumExceeded?: boolean
 }

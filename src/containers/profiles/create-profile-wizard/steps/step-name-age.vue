@@ -7,11 +7,11 @@
       <h1>Привет</h1>
 
       <h2>Давай знакомиться поближе</h2>
-
-      <p>Начнем с простого: как тебя зовут?</p>
     </BaseTypography>
 
     <BaseInput label="Имя" v-bind="name" />
+
+    <BaseInputNumber label="Возраст" v-bind="age" />
 
     <BaseButton>Далее</BaseButton>
   </form>
@@ -22,10 +22,11 @@
   import { useProfileWizard } from '@@/use-cases/profiles'
   import BaseTypography from '@/components/ui/base-typography.vue'
   import BaseButton from '@/components/ui/base-button.vue'
+  import BaseInputNumber from '@/components/ui/base-input-number.vue'
 
   const {
     stepNameForm: {
-      bindings: { name },
+      bindings: { name, age },
       submitForm,
     },
   } = useProfileWizard()

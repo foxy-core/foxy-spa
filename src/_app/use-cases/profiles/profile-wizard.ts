@@ -1,6 +1,7 @@
 import { computed, toRef } from 'vue'
 
 import {
+  ageValidator,
   interestsValidator,
   nameValidator,
   ProfileWizardStep,
@@ -35,6 +36,11 @@ export const useProfileWizard = () => {
       name: {
         validator: nameValidator,
         type: FormFieldType.Input,
+      },
+      age: {
+        validator: ageValidator,
+        type: FormFieldType.InputNumber,
+        initialValue: 18,
       },
     },
   })

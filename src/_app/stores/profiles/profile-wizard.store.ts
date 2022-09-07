@@ -15,7 +15,7 @@ export const useProfileWizardStore = defineStore(
     const storage = useLocalStorage<
       Partial<{
         currentStep: ProfileWizardStep
-        [ProfileWizardStep.Name]: Partial<ProfileWizardStepName>
+        [ProfileWizardStep.NameAge]: Partial<ProfileWizardStepName>
         [ProfileWizardStep.Interests]: Partial<ProfileWizardStepInterests>
       }>
     >(
@@ -30,7 +30,7 @@ export const useProfileWizardStore = defineStore(
     const saveToLocalStorage = () => {
       storage.value = {
         currentStep: currentStep.value,
-        [ProfileWizardStep.Name]: stepNameState.value,
+        [ProfileWizardStep.NameAge]: stepNameState.value,
         [ProfileWizardStep.Interests]: stepInterestsState.value,
       }
     }
@@ -40,13 +40,13 @@ export const useProfileWizardStore = defineStore(
     }
 
     const currentStep = ref<ProfileWizardStep>(
-      storage.value.currentStep ?? ProfileWizardStep.Name,
+      storage.value.currentStep ?? ProfileWizardStep.NameAge,
     )
 
     // watch(() => currentStep.value, saveToLocalStorage)
 
     const stepNameState = ref<Partial<ProfileWizardStepName>>(
-      storage.value[ProfileWizardStep.Name] ?? {},
+      storage.value[ProfileWizardStep.NameAge] ?? {},
     )
 
     const stepInterestsState = ref<Partial<ProfileWizardStepInterests>>(

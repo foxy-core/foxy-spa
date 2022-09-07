@@ -1,8 +1,8 @@
 import { Profile } from './profile.model'
 
 export const enum ProfileWizardStep {
-  Name,
-  //   Parameters,
+  NameAge,
+  // Parameters,
   //   LookingFor,
   //   MaritalStatus,
   //   SmokingDrinking,

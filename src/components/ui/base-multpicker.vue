@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col w-full space-y-6">
-    <div class="h-8 sticky top-20 mx-auto">
+    <div class="h-8 sticky top-20 mx-auto z-40">
       <CustomTransition type="bottom">
         <p
           v-if="errorString"
@@ -27,7 +27,7 @@
             modelValue.includes(key)
               ? 'ring-inset ring-[1.5px] ring-primary-lighter text-surface-800'
               : 'bg-surface-100 text-surface-600 media-hover:hover:bg-surface-50',
-            shakingKeys.includes(key) && 'animate-shake',
+            animatedKeys.includes(key) && 'animate-shake',
           ]"
         >
           {{ displayValue }}
@@ -38,6 +38,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useAnimatedKeys } from '@@/shared/ui-utils'
   import { nextTick, ref } from 'vue'
   import CustomTransition from './custom-transition.vue'
   export type PickerOption = {
@@ -49,14 +50,14 @@
     options: PickerOption[][]
     modelValue: string[]
     errorString?: string
-    maximumExceeded?: boolean
+    exceeded?: boolean
   }>()
 
   const emit = defineEmits<{
     (event: 'update:modelValue', modelValue: string[]): void
   }>()
 
-  const shakingKeys = ref<string[]>([])
+  const { animatedKeys, animate } = useAnimatedKeys(500)
 
   const onClick = (key: string) => {
     if (props.modelValue.includes(key)) {
@@ -69,12 +70,8 @@
     }
 
     nextTick(() => {
-      if (props.maximumExceeded) {
-        shakingKeys.value.push(key)
-
-        setTimeout(() => {
-          shakingKeys.value = shakingKeys.value.filter(v => v !== key)
-        }, 500)
+      if (props.exceeded) {
+        animate(key)
       }
     })
   }

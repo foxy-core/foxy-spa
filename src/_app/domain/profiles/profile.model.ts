@@ -1,16 +1,13 @@
 import { z } from 'zod'
-import { zodValidator } from '../validation'
+import { zodValidator } from '@@/domain/validation'
 
 const latinAndCyrillic = /^[a-zа-яё]*$/i
 
-const Age = z
+const Age = z //
   .number()
   .int()
-  .min(18, 'Our service is primarily 18+')
-  .max(
-    80,
-    'Sorry, no misunderstanding, we think that its to hard to find someone with our service',
-  )
+  .min(18, 'Только 18+')
+  .max(80, 'Без комментариев')
 
 export const Profile = z.object({
   name: z.string().regex(latinAndCyrillic, 'Только кириллица и латиница'),
@@ -74,3 +71,5 @@ export const DEFAULT_AGE_DELTA = 3
 export const nameValidator = zodValidator(Profile.shape.name)
 
 export const interestsValidator = zodValidator(Profile.shape.interests)
+
+export const ageValidator = zodValidator(Profile.shape.age)

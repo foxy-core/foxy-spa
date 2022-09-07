@@ -1,5 +1,5 @@
 <template>
-  <Story>
+  <Story title="BaseNotification">
     <Variant title="info">
       <BaseNotification v-bind="notificationState" type="info"
     /></Variant>

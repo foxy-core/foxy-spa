@@ -32,7 +32,7 @@
 
   const isShowBackButton = computed(
     () =>
-      profileWizard.currentStep.value > ProfileWizardStep.Name &&
+      profileWizard.currentStep.value > ProfileWizardStep.NameAge &&
       profileWizard.currentStep.value < ProfileWizardStep.Congratulations,
   )
 </script>

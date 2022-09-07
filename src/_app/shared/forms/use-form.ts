@@ -9,6 +9,7 @@ const V_MODEL_EVENT_PROP = 'onUpdate:modelValue'
 
 export const enum FormFieldType {
   Input = 'input',
+  InputNumber = 'inputNumber',
   Multipicker = 'multipicker',
 }
 
@@ -24,7 +25,7 @@ type FormFieldOptions<T, F extends FormFieldType, O = {}> = O & {
 
 type FormFieldBinding<T, B = {}> = B & {
   [V_MODEL_VALUE_PROP]: T
-  [V_MODEL_EVENT_PROP]: (value: T) => unknown
+  [V_MODEL_EVENT_PROP]: (value: T, manuallyChanged?: boolean) => unknown
   validationStatus: ValidationStatus
   errorString?: string
 }
@@ -33,8 +34,13 @@ type WithRequirement<T = {}> = T & {
   requirementNotSatisfied: boolean
 }
 
-type WithMaximum<T = {}> = T & {
-  maximumExceeded: boolean
+type WithExceeded<T = {}> = T & {
+  exceeded: boolean
+}
+
+type WithBoundaries<T = {}> = T & {
+  min?: number
+  max?: number
 }
 
 type FormInputFieldType = string
@@ -47,6 +53,16 @@ type FormInputFieldBinding = FormFieldBinding<
   WithRequirement
 >
 
+type FormInputNumberFieldType = number
+type FormInputNumberFieldOptions = FormFieldOptions<
+  FormInputNumberFieldType,
+  FormFieldType.InputNumber
+>
+type FormInputNumberFieldBinding = FormFieldBinding<
+  FormInputNumberFieldType,
+  WithExceeded<WithBoundaries<WithRequirement>>
+>
+
 type FormMultipickerFieldType = string[]
 type FormMultipickerFieldOptions = FormFieldOptions<
   FormMultipickerFieldType,
@@ -54,12 +70,14 @@ type FormMultipickerFieldOptions = FormFieldOptions<
 >
 type FormMultipickerFieldBinding = FormFieldBinding<
   FormMultipickerFieldType,
-  WithMaximum
+  WithExceeded
 >
 
 type FormFieldResultOptions<T extends FormFieldType> =
   T extends FormFieldType.Input
     ? FormInputFieldOptions
+    : T extends FormFieldType.InputNumber
+    ? FormInputNumberFieldOptions
     : T extends FormFieldType.Multipicker
     ? FormMultipickerFieldOptions
     : never
@@ -67,6 +85,8 @@ type FormFieldResultOptions<T extends FormFieldType> =
 type FormFieldResultBinding<T extends FormFieldType> =
   T extends FormFieldType.Input
     ? FormInputFieldBinding
+    : T extends FormFieldType.InputNumber
+    ? FormInputNumberFieldBinding
     : T extends FormFieldType.Multipicker
     ? FormMultipickerFieldBinding
     : never
@@ -86,6 +106,8 @@ type InferFieldStateType<T> = [T] extends [
 ]
   ? F extends FormFieldType.Input
     ? FormInputFieldType
+    : F extends FormFieldType.InputNumber
+    ? FormInputNumberFieldType
     : F extends FormFieldType.Multipicker
     ? FormMultipickerFieldType
     : never
@@ -139,6 +161,7 @@ export const useForm = <
   state = ref({}),
 }: UseFormOptions<F, S>): UseFormResult<F, T, S> => {
   const validationState = ref<ValidationState>({})
+  const changesState = ref<ValidationState>({})
   const isAllValid = computed(() =>
     Object.keys(fields).every(key => validationState.value[key]),
   )
@@ -162,31 +185,48 @@ export const useForm = <
       const { initialValue, validator, immediate, type } =
         entry[1] as F[keyof F]
 
-      if (exists(initialValue)) {
-        state.value[key] = executeOrGet(initialValue) as S[keyof S]
+      const executedInitialValue = executeOrGet(initialValue) as S[keyof S]
+      const hasInitialValue = exists(executedInitialValue)
+      const hadValue = exists(state.value[key])
+
+      if (!hadValue && hasInitialValue) {
+        state.value[key] = executedInitialValue
       }
 
       const modelValue = computed(() => state.value[key])
 
-      const doValidate = computed(
-        () =>
+      const doValidate = computed(() => {
+        return (
           isFormSubmitted.value ||
-          (modelValue.value !== undefined &&
-            modelValue.value !== null &&
-            !isFormSubmitted.value),
-      )
+          (modelValue.value !== undefined && modelValue.value !== null)
+        )
+      })
       const validationResult = ref<
         ReturnType<Validator<unknown, unknown>> | undefined
       >()
 
-      const onUpdate = (value: S[keyof S]) => {
-        if (type === FormFieldType.Multipicker) {
+      const onUpdate = (value: S[keyof S], manuallyChanged = true) => {
+        if (
+          type === FormFieldType.Multipicker ||
+          type === FormFieldType.InputNumber
+        ) {
+          changesState.value[key] = true
+
           const validated = validator?.(value, state.value)
 
           if (exists(validated)) {
-            if (validated.maximumExceeded) {
-              validationResult.value = validated
-              // If maximum exceeded we need to display error message and prevent from updating state
+            if (
+              (type === FormFieldType.Multipicker &&
+                validated.maximumExceeded) ||
+              (type === FormFieldType.InputNumber &&
+                !manuallyChanged &&
+                (validated.maximumExceeded || validated.minimumExceeded))
+            ) {
+              validationResult.value = {
+                ...validated,
+                validationStatus: ValidationStatus.Valid,
+              }
+              // If boundaries exceeded we need to display error message and prevent from updating state
               // Could be refactored
               return
             } else {
@@ -218,7 +258,7 @@ export const useForm = <
               : ValidationStatus.NotValidated,
           'onUpdate:modelValue': onUpdate,
 
-          ...(type === FormFieldType.Input
+          ...(type === FormFieldType.Input || type === FormFieldType.InputNumber
             ? {
                 requirementNotSatisfied: doValidate.value
                   ? !validated?.requirementSatisfied
@@ -226,9 +266,14 @@ export const useForm = <
               }
             : {}),
 
-          ...(type === FormFieldType.Multipicker
+          ...(type === FormFieldType.Multipicker ||
+          type === FormFieldType.InputNumber
             ? {
-                maximumExceeded: validated?.maximumExceeded,
+                exceeded:
+                  (type === FormFieldType.Multipicker &&
+                    validated?.maximumExceeded) ||
+                  (type === FormFieldType.InputNumber &&
+                    (validated?.maximumExceeded || validated?.minimumExceeded)),
               }
             : {}),
         }
