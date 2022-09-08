@@ -16,7 +16,7 @@
       :key="i"
     >
       <div
-        class="flex-shrink-0 py-1.5 pr-2"
+        class="flex-shrink-0 py-1.5 pr-2 touch-manipulation"
         v-for="{ displayValue, key } in row"
         :key="key"
         @click="onClick(key)"
@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
   import { useAnimatedKeys } from '@@/shared/ui-utils'
-  import { nextTick, ref } from 'vue'
+  import { nextTick } from 'vue'
   import CustomTransition from './custom-transition.vue'
   export type PickerOption = {
     displayValue: string
