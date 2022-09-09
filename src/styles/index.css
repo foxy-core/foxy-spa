@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&family=Ubuntu:wght@300;400;500;700&display=swap');
-
+@import './fonts.css';
 @import './themes.css';
 @import './default.css';
 @import './tailwind.css';
