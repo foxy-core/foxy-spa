@@ -1,58 +1,83 @@
 import * as path from 'path'
-import { defineConfig } from 'vite'
+import { defineConfig, Plugin } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 import unpluginIcons from 'unplugin-icons/vite'
 import svgLoader from 'vite-svg-loader'
 import analyze from 'rollup-plugin-analyzer'
 import visualize from 'rollup-plugin-visualizer'
+import { minify as minifyHtml } from 'html-minifier'
 
-export default defineConfig({
-  plugins: [
-    vue(),
+const minifyHtmlPlugin = (): Plugin => ({
+  name: 'foxy:minify-html',
+  transformIndexHtml: (source, ctx) => {
+    const minified = minifyHtml(source, {
+      html5: true,
+      collapseWhitespace: true,
+      minifyJS: true,
+      minifyCSS: true,
+      collapseBooleanAttributes: true,
+      keepClosingSlash: false,
+      removeComments: true,
+      removeAttributeQuotes: true,
+    })
 
-    unpluginIcons({
-      autoInstall: true,
-      compiler: 'vue3',
-    }),
+    return minified
+  },
+})
 
-    svgLoader({
-      svgo: true,
-      svgoConfig: {
-        plugins: [
-          {
-            name: 'removeDimensions',
-          },
-        ],
-      },
-    }),
+export default defineConfig(({ command }) => {
+  const IS_BUILD = command === 'build'
 
-    analyze(),
-    visualize({
-      filename: path.resolve(__dirname, 'dist/_/dev/stats.html'),
-    }),
-  ],
-  build: {
-    rollupOptions: {
-      manualChunks: {
-        'vue-chunk': ['vue', 'vue-router'],
-        'vendors-chunk': ['axios', 'zod'],
+  return {
+    plugins: [
+      vue(),
+
+      unpluginIcons({
+        autoInstall: true,
+        compiler: 'vue3',
+      }),
+
+      svgLoader({
+        svgo: true,
+        svgoConfig: {
+          plugins: [
+            {
+              name: 'removeDimensions',
+            },
+          ],
+        },
+      }),
+
+      IS_BUILD && minifyHtmlPlugin(),
+
+      analyze(),
+      visualize({
+        filename: path.resolve(__dirname, 'dist/_/dev/stats.html'),
+      }),
+    ],
+    build: {
+      rollupOptions: {
+        manualChunks: {
+          'vue-chunk': ['vue', 'vue-router'],
+          'vendors-chunk': ['axios', 'zod'],
+        },
       },
     },
-  },
-  resolve: {
-    alias: [
-      {
-        find: '@/',
-        replacement: path.resolve(__dirname, 'src/') + '/',
-      },
-      {
-        find: '@@/',
-        replacement: path.resolve(__dirname, 'src/_app/') + '/',
-      },
-    ],
-  },
-  server: {
-    port: 3000,
-  },
+    resolve: {
+      alias: [
+        {
+          find: '@/',
+          replacement: path.resolve(__dirname, 'src/') + '/',
+        },
+        {
+          find: '@@/',
+          replacement: path.resolve(__dirname, 'src/_app/') + '/',
+        },
+      ],
+    },
+    server: {
+      port: 3000,
+    },
+  }
 })
