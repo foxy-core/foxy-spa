@@ -2,10 +2,11 @@ import {
   ProfileWizardStep,
   ProfileWizardStepInterests,
   ProfileWizardStepName,
+  ProfileWizardStepSmokingDrinking,
 } from '@@/domain/profiles'
 import { useLocalStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
-import { reactive, ref, watch } from 'vue'
+import { ref } from 'vue'
 
 const LOCAL_STORAGE_KEY = 'foxy-profile-wizard'
 
@@ -16,6 +17,7 @@ export const useProfileWizardStore = defineStore(
       Partial<{
         currentStep: ProfileWizardStep
         [ProfileWizardStep.NameAge]: Partial<ProfileWizardStepName>
+        [ProfileWizardStep.SmokingDrinking]: Partial<ProfileWizardStepSmokingDrinking>
         [ProfileWizardStep.Interests]: Partial<ProfileWizardStepInterests>
       }>
     >(
@@ -32,6 +34,7 @@ export const useProfileWizardStore = defineStore(
         currentStep: currentStep.value,
         [ProfileWizardStep.NameAge]: stepNameState.value,
         [ProfileWizardStep.Interests]: stepInterestsState.value,
+        [ProfileWizardStep.SmokingDrinking]: stepSmokingDrinkingState.value,
       }
     }
 
@@ -43,11 +46,13 @@ export const useProfileWizardStore = defineStore(
       storage.value.currentStep ?? ProfileWizardStep.NameAge,
     )
 
-    // watch(() => currentStep.value, saveToLocalStorage)
-
     const stepNameState = ref<Partial<ProfileWizardStepName>>(
       storage.value[ProfileWizardStep.NameAge] ?? {},
     )
+
+    const stepSmokingDrinkingState = ref<
+      Partial<ProfileWizardStepSmokingDrinking>
+    >(storage.value[ProfileWizardStep.SmokingDrinking] ?? {})
 
     const stepInterestsState = ref<Partial<ProfileWizardStepInterests>>(
       storage.value[ProfileWizardStep.Interests] ?? {
@@ -62,6 +67,7 @@ export const useProfileWizardStore = defineStore(
 
       stepNameState,
       stepInterestsState,
+      stepSmokingDrinkingState,
     }
   },
 )

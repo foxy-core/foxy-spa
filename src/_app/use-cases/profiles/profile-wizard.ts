@@ -2,12 +2,17 @@ import { computed, toRef } from 'vue'
 
 import {
   ageValidator,
+  alcoholValidator,
   interestsValidator,
   nameValidator,
   ProfileWizardStep,
+  smokingValidator,
 } from '@@/domain/profiles'
 import { FormFieldType, useForm } from '@@/shared/forms'
-import { PickerOption } from '@@/shared/ui-utils'
+import {
+  categorizedEnumToPickerOptions,
+  enumToPickerOptions,
+} from '@@/shared/ui-utils'
 import { useProfileWizardStore } from '@@/stores/profiles'
 import { useEnums } from '@@/use-cases/layout'
 
@@ -45,23 +50,29 @@ export const useProfileWizard = () => {
     },
   })
 
-  const interestsOptions = computed<PickerOption[][]>(() =>
-    enums.value
-      ? Object.values(
-          Object.entries(enums.value.Interests)
-            .map(([key, { category, value: displayValue }]) => ({
-              key,
-              category,
-              displayValue,
-            }))
-            .reduce((acc, { key, category, displayValue }) => {
-              acc[category] = acc[category]
-                ? [...acc[category], { key, displayValue }]
-                : [{ key, displayValue }]
-              return acc
-            }, {} as Record<string, PickerOption[]>),
-        )
-      : [],
+  const interestsOptions = computed(() =>
+    enums.value ? categorizedEnumToPickerOptions(enums.value.Interests) : [],
+  )
+
+  const stepSmokingDrinkingForm = useForm({
+    onSubmitted() {
+      nextStep()
+    },
+    state: toRef(store, 'stepSmokingDrinkingState'),
+    fields: {
+      smoking: {
+        type: FormFieldType.Picker,
+        validator: smokingValidator,
+      },
+      alcohol: {
+        type: FormFieldType.Picker,
+        validator: alcoholValidator,
+      },
+    },
+  })
+
+  const frequencyOptions = computed(() =>
+    enums.value ? enumToPickerOptions(enums.value.Frequency) : [],
   )
 
   const stepInterestsForm = useForm({
@@ -79,8 +90,12 @@ export const useProfileWizard = () => {
 
   return {
     stepNameForm,
+    stepSmokingDrinkingForm,
     stepInterestsForm,
+
     interestsOptions,
+    frequencyOptions,
+
     previousStep,
     currentStep,
   }
