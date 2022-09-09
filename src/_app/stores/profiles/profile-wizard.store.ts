@@ -2,6 +2,7 @@ import {
   ProfileWizardStep,
   ProfileWizardStepInterests,
   ProfileWizardStepName,
+  ProfileWizardStepPersonality,
   ProfileWizardStepSmokingDrinking,
 } from '@@/domain/profiles'
 import { useLocalStorage } from '@vueuse/core'
@@ -19,6 +20,7 @@ export const useProfileWizardStore = defineStore(
         [ProfileWizardStep.NameAge]: Partial<ProfileWizardStepName>
         [ProfileWizardStep.SmokingDrinking]: Partial<ProfileWizardStepSmokingDrinking>
         [ProfileWizardStep.Interests]: Partial<ProfileWizardStepInterests>
+        [ProfileWizardStep.Personality]: Partial<ProfileWizardStepPersonality>
       }>
     >(
       LOCAL_STORAGE_KEY,
@@ -35,6 +37,7 @@ export const useProfileWizardStore = defineStore(
         [ProfileWizardStep.NameAge]: stepNameState.value,
         [ProfileWizardStep.Interests]: stepInterestsState.value,
         [ProfileWizardStep.SmokingDrinking]: stepSmokingDrinkingState.value,
+        [ProfileWizardStep.Personality]: stepPersonalityState.value,
       }
     }
 
@@ -60,6 +63,10 @@ export const useProfileWizardStore = defineStore(
       },
     )
 
+    const stepPersonalityState = ref<Partial<ProfileWizardStepPersonality>>(
+      storage.value[ProfileWizardStep.Personality] ?? {},
+    )
+
     return {
       currentStep,
       saveToLocalStorage,
@@ -68,6 +75,7 @@ export const useProfileWizardStore = defineStore(
       stepNameState,
       stepInterestsState,
       stepSmokingDrinkingState,
+      stepPersonalityState,
     }
   },
 )

@@ -44,6 +44,9 @@ type WithBoundaries<T = {}> = T & {
 
 type WithValidation<T = {}> = T & {
   validationStatus: ValidationStatus
+}
+
+type WithError<T = {}> = T & {
   errorString?: string
 }
 
@@ -54,7 +57,7 @@ type FormInputFieldOptions = FormFieldOptions<
 >
 type FormInputFieldBinding = FormFieldBinding<
   FormInputFieldType,
-  WithRequirement<WithValidation>
+  WithRequirement & WithValidation & WithError
 >
 
 type FormInputNumberFieldType = number
@@ -64,7 +67,7 @@ type FormInputNumberFieldOptions = FormFieldOptions<
 >
 type FormInputNumberFieldBinding = FormFieldBinding<
   FormInputNumberFieldType,
-  WithExceeded<WithBoundaries<WithRequirement<WithValidation>>>
+  WithExceeded & WithBoundaries & WithRequirement & WithValidation & WithError
 >
 
 type FormMultipickerFieldType = string[]
@@ -74,7 +77,7 @@ type FormMultipickerFieldOptions = FormFieldOptions<
 >
 type FormMultipickerFieldBinding = FormFieldBinding<
   FormMultipickerFieldType,
-  WithExceeded
+  WithExceeded & WithError
 >
 
 type FormPickerFieldType = string
@@ -273,12 +276,17 @@ export const useForm = <
           modelValue: modelValue.value,
           'onUpdate:modelValue': onUpdate,
 
-          ...(type !== FormFieldType.Picker &&
-          type !== FormFieldType.Multipicker
+          ...(type !== FormFieldType.Picker
             ? {
                 errorString: doValidate.value
                   ? validated?.errorMessage
                   : undefined,
+              }
+            : {}),
+
+          ...(type !== FormFieldType.Picker &&
+          type !== FormFieldType.Multipicker
+            ? {
                 validationStatus:
                   immediate || doValidate.value
                     ? validated?.validationStatus

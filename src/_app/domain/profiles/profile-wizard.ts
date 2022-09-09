@@ -20,3 +20,4 @@ export type ProfileWizardStepSmokingDrinking = Pick<
   Profile,
   'smoking' | 'alcohol'
 >
+export type ProfileWizardStepPersonality = Pick<Profile, 'personality'>

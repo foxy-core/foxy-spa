@@ -5,6 +5,7 @@ import {
   alcoholValidator,
   interestsValidator,
   nameValidator,
+  personalityValidator,
   ProfileWizardStep,
   smokingValidator,
 } from '@@/domain/profiles'
@@ -88,13 +89,32 @@ export const useProfileWizard = () => {
     },
   })
 
+  const personalityOptions = computed(() =>
+    enums.value ? enumToPickerOptions(enums.value.Personality) : [],
+  )
+
+  const stepPersonalityForm = useForm({
+    onSubmitted() {
+      nextStep()
+    },
+    state: toRef(store, 'stepPersonalityState'),
+    fields: {
+      personality: {
+        type: FormFieldType.Picker,
+        validator: personalityValidator,
+      },
+    },
+  })
+
   return {
     stepNameForm,
     stepSmokingDrinkingForm,
     stepInterestsForm,
+    stepPersonalityForm,
 
     interestsOptions,
     frequencyOptions,
+    personalityOptions,
 
     previousStep,
     currentStep,

@@ -1,5 +1,5 @@
 <template>
-  <form class="w-full h-full flex flex-col space-y-4">
+  <div class="w-full h-full flex flex-col space-y-4">
     <BaseTypography class="text-center mx-auto">
       <h1>Твое отношение к&nbsp;вредным привычкам</h1>
     </BaseTypography>
@@ -21,7 +21,7 @@
       @click="submitForm"
       >Далее</BaseButton
     >
-  </form>
+  </div>
 </template>
 
 <script setup lang="ts">

@@ -19,7 +19,7 @@ export type StoredEnums = {
   Interests: InterestsEnum
   LookingFor: LookingForEnum
   MaritalStatus: MaritalStatusEnum
-  Personaluty: PersonalityEnum
+  Personality: PersonalityEnum
   Sex: SexEnum
   Zodiac: ZodiacEnum
 }

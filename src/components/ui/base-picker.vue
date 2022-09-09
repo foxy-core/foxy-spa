@@ -21,7 +21,7 @@
 
   const props = defineProps<{
     options: PickerOption[]
-    modelValue: string
+    modelValue?: string
     requirementNotSatisfied?: boolean
   }>()
 

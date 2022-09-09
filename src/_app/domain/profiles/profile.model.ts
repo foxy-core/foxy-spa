@@ -76,3 +76,5 @@ export const ageValidator = zodValidator(Profile.shape.age)
 
 export const alcoholValidator = zodValidator(Profile.shape.alcohol)
 export const smokingValidator = zodValidator(Profile.shape.smoking)
+
+export const personalityValidator = zodValidator(Profile.shape.personality)
