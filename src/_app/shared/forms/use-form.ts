@@ -11,6 +11,7 @@ export const enum FormFieldType {
   Input = 'input',
   InputNumber = 'inputNumber',
   Multipicker = 'multipicker',
+  Picker = 'picker',
 }
 
 type FormFieldOptions<T, F extends FormFieldType, O = {}> = O & {
@@ -25,9 +26,7 @@ type FormFieldOptions<T, F extends FormFieldType, O = {}> = O & {
 
 type FormFieldBinding<T, B = {}> = B & {
   [V_MODEL_VALUE_PROP]: T
-  [V_MODEL_EVENT_PROP]: (value: T, manuallyChanged?: boolean) => unknown
-  validationStatus: ValidationStatus
-  errorString?: string
+  [V_MODEL_EVENT_PROP]: (value?: T, manuallyChanged?: boolean) => unknown
 }
 
 type WithRequirement<T = {}> = T & {
@@ -43,6 +42,11 @@ type WithBoundaries<T = {}> = T & {
   max?: number
 }
 
+type WithValidation<T = {}> = T & {
+  validationStatus: ValidationStatus
+  errorString?: string
+}
+
 type FormInputFieldType = string
 type FormInputFieldOptions = FormFieldOptions<
   FormInputFieldType,
@@ -50,7 +54,7 @@ type FormInputFieldOptions = FormFieldOptions<
 >
 type FormInputFieldBinding = FormFieldBinding<
   FormInputFieldType,
-  WithRequirement
+  WithRequirement<WithValidation>
 >
 
 type FormInputNumberFieldType = number
@@ -60,7 +64,7 @@ type FormInputNumberFieldOptions = FormFieldOptions<
 >
 type FormInputNumberFieldBinding = FormFieldBinding<
   FormInputNumberFieldType,
-  WithExceeded<WithBoundaries<WithRequirement>>
+  WithExceeded<WithBoundaries<WithRequirement<WithValidation>>>
 >
 
 type FormMultipickerFieldType = string[]
@@ -73,6 +77,16 @@ type FormMultipickerFieldBinding = FormFieldBinding<
   WithExceeded
 >
 
+type FormPickerFieldType = string
+type FormPickerFieldOptions = FormFieldOptions<
+  FormPickerFieldType,
+  FormFieldType.Picker
+>
+type FormPickerFieldBinding = FormFieldBinding<
+  FormPickerFieldType,
+  WithRequirement
+>
+
 type FormFieldResultOptions<T extends FormFieldType> =
   T extends FormFieldType.Input
     ? FormInputFieldOptions
@@ -80,6 +94,8 @@ type FormFieldResultOptions<T extends FormFieldType> =
     ? FormInputNumberFieldOptions
     : T extends FormFieldType.Multipicker
     ? FormMultipickerFieldOptions
+    : T extends FormFieldType.Picker
+    ? FormPickerFieldOptions
     : never
 
 type FormFieldResultBinding<T extends FormFieldType> =
@@ -89,6 +105,8 @@ type FormFieldResultBinding<T extends FormFieldType> =
     ? FormInputNumberFieldBinding
     : T extends FormFieldType.Multipicker
     ? FormMultipickerFieldBinding
+    : T extends FormFieldType.Picker
+    ? FormPickerFieldBinding
     : never
 
 type InferFieldType<T> = [T] extends [
@@ -110,6 +128,8 @@ type InferFieldStateType<T> = [T] extends [
     ? FormInputNumberFieldType
     : F extends FormFieldType.Multipicker
     ? FormMultipickerFieldType
+    : F extends FormFieldType.Picker
+    ? FormPickerFieldType
     : never
   : never
 
@@ -250,15 +270,25 @@ export const useForm = <
           : true
 
         const binding = {
-          errorString: doValidate.value ? validated?.errorMessage : undefined,
           modelValue: modelValue.value,
-          validationStatus:
-            immediate || doValidate.value
-              ? validated?.validationStatus
-              : ValidationStatus.NotValidated,
           'onUpdate:modelValue': onUpdate,
 
-          ...(type === FormFieldType.Input || type === FormFieldType.InputNumber
+          ...(type !== FormFieldType.Picker &&
+          type !== FormFieldType.Multipicker
+            ? {
+                errorString: doValidate.value
+                  ? validated?.errorMessage
+                  : undefined,
+                validationStatus:
+                  immediate || doValidate.value
+                    ? validated?.validationStatus
+                    : ValidationStatus.NotValidated,
+              }
+            : {}),
+
+          ...(type === FormFieldType.Input ||
+          type === FormFieldType.InputNumber ||
+          type === FormFieldType.Picker
             ? {
                 requirementNotSatisfied: doValidate.value
                   ? !validated?.requirementSatisfied
