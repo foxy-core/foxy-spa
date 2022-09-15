@@ -6,6 +6,7 @@ import { Email, Password } from '@@/domain/accounts'
 import { useNotify } from '@@/use-cases/notifications'
 import { NotificationType } from '@@/domain/notifications'
 import { AuthenticationError } from '@@/infrastructure/dto/errors'
+import { sendSignInEvent } from '@@/use-cases/analytics'
 
 import {
   getClientId,
@@ -50,6 +51,7 @@ export const useSignIn = () => {
       setTokenValidity(true, response.result.expiresIn)
       setRefreshToken(response.result.refreshToken)
       setAccessToken(response.result.token)
+      sendSignInEvent('local')
       goToCards()
       return
     }

@@ -4,6 +4,7 @@ import { usePokeApi } from '@@/use-cases/shared'
 import { Email, Password } from '@@/domain/accounts'
 import { PokeResponseStatus } from '@@/shared/poke'
 import { useNotify } from '@@/use-cases/notifications'
+import { sendSignUpEvent } from '@@/use-cases/analytics'
 
 import {
   getClientId,
@@ -14,7 +15,6 @@ import {
 import { NotificationType } from '@@/domain/notifications'
 import { AuthenticationError } from '@@/infrastructure/dto/errors'
 import { CardsPage } from '@@/domain/cards'
-import { SignInStrategy } from '@@/infrastructure/dto/auth'
 
 type SignUpInput = {
   email: Email
@@ -47,6 +47,7 @@ export const useSignUp = () => {
       setRefreshToken(result.result.refreshToken)
       setAccessToken(result.result.token)
       setTokenValidity(true, result.result.expiresIn)
+      sendSignUpEvent()
       goToCards()
       return
     }

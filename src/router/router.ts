@@ -1,4 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, isNavigationFailure } from 'vue-router'
+import { sendPageView } from '@@/use-cases/analytics'
 import { redirectOnAuthMiddleware } from './middlewares'
 import {
   _404Routes,
@@ -23,6 +24,12 @@ export const createFoxyRouter = () => {
   })
 
   router.beforeEach(redirectOnAuthMiddleware)
+
+  router.afterEach((to, from, failure) => {
+    if (!isNavigationFailure(failure)) {
+      sendPageView()
+    }
+  })
 
   return router
 }

@@ -2,6 +2,8 @@ import { useRoute, useRouter } from 'vue-router'
 
 import { usePokeApi } from '@@/use-cases/shared'
 import { PokeResponseStatus } from '@@/shared/poke'
+import { sendSignInEvent } from '@@/use-cases/analytics'
+import { CardsPage } from '@@/domain/cards'
 
 import {
   getClientId,
@@ -46,6 +48,11 @@ export const useAuthViaVk = () => {
       setTokenValidity(true, response.result.expiresIn)
       setRefreshToken(response.result.refreshToken)
       setAccessToken(response.result.token)
+      sendSignInEvent('vk')
+
+      return router.replace({
+        name: CardsPage.Cards,
+      })
     }
 
     goToSignIn()

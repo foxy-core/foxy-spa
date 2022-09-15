@@ -1,3 +1,4 @@
+import { sendSignOutEvent } from '@@/use-cases/analytics'
 import {
   clearAccessToken,
   clearRefreshToken,
@@ -5,6 +6,8 @@ import {
 } from './cookies'
 
 export const signOut = (navigate = true) => {
+  sendSignOutEvent()
+
   clearAccessToken()
   clearRefreshToken()
   clearTokenValidity()
