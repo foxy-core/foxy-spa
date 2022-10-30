@@ -1,5 +1,6 @@
-import { SparksPage } from '@@/domain/sparks'
 import { RouteRecordRaw } from 'vue-router'
+
+import { SparksPage } from '@@/domain/sparks'
 
 export const sparksRoutes: RouteRecordRaw[] = [
   {

@@ -13,15 +13,14 @@
 
   import AuthorizedLayout from '@/layouts/authorized-layout.vue'
   import DefaultLayout from '@/layouts/default-layout.vue'
-
-  import { exists } from '@@/shared/guards'
   import { PageAuthRequirements } from '@@/domain/auth'
-  import { providePokeApi } from '@@/use-cases/shared'
-  import { getAccessToken, useRefresh } from '@@/use-cases/auth'
-  import { unmountSplashScreen } from '@@/shared/splash'
-  import { CommonError } from '@@/infrastructure/dto/errors'
-  import { useNotify } from '@@/use-cases/notifications'
   import { NotificationType } from '@@/domain/notifications'
+  import { CommonError } from '@@/infrastructure/dto/errors'
+  import { exists } from '@@/shared/guards'
+  import { unmountSplashScreen } from '@@/shared/splash'
+  import { getAccessToken, useRefresh } from '@@/use-cases/auth'
+  import { useNotify } from '@@/use-cases/notifications'
+  import { providePokeApi } from '@@/use-cases/shared'
 
   useHead({
     titleTemplate: chunk => (chunk ? `${chunk} | Foxy` : 'Foxy'),

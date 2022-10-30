@@ -7,11 +7,11 @@
         </p>
       </CustomTransition>
     </div>
-    <div :class="multipickerStyles.row" v-for="(row, i) in options" :key="i">
+    <div v-for="(row, i) in options" :key="i" :class="multipickerStyles.row">
       <div
-        :class="multipickerStyles.cellWrapper"
         v-for="{ displayValue, key } in row"
         :key="key"
+        :class="multipickerStyles.cellWrapper"
         @click="onClick(key)"
       >
         <div
@@ -30,9 +30,11 @@
 </template>
 
 <script setup lang="ts">
-  import type { PickerOption } from '@@/shared/ui-utils'
   import { nextTick } from 'vue'
+
+  import type { PickerOption } from '@@/shared/ui-utils'
   import { useAnimatedKeys } from '@@/shared/ui-utils'
+
   import CustomTransition from './custom-transition.vue'
   import { multipickerStyles } from './shared-styles'
 

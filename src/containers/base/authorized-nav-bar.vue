@@ -3,12 +3,12 @@
     class="bg-opaque-background backdrop-blur-md xs:h-20 px-8 rounded-t-2xl flex flex-row items-center justify-evenly"
   >
     <RouterLink
-      class="w-full h-16 flex items-center justify-center"
       v-for="(item, i) in navBarItems"
       :key="i"
+      class="w-full h-16 flex items-center justify-center"
       :to="item.to"
     >
-      <component
+      <Component
         :is="item.icon"
         class="h-8 w-8 [&>*]:stroke-1 transition-colors duration-100"
         :class="
@@ -25,14 +25,15 @@
   import type { Component } from 'vue'
   import { RouteLocationRaw, useRoute } from 'vue-router'
 
-  import SparklesIcon from '~icons/heroicons-solid/sparkles'
-  import CollectionIcon from '~icons/heroicons-solid/collection'
-  import UserIcon from '~icons/heroicons-solid/user-circle'
-
-  import { SparksPage } from '@@/domain/sparks'
-  import { ProfilesPage } from '@@/domain/profiles'
   import { AccountsPage } from '@@/domain/accounts'
   import { CardsPage } from '@@/domain/cards'
+  import { ProfilesPage } from '@@/domain/profiles'
+  import { SparksPage } from '@@/domain/sparks'
+
+  import CollectionIcon from '~icons/heroicons-solid/collection'
+  import SparklesIcon from '~icons/heroicons-solid/sparkles'
+  import UserIcon from '~icons/heroicons-solid/user-circle'
+
 
   type NavBarItem = {
     icon: Component

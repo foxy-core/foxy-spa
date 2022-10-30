@@ -1,7 +1,7 @@
-import { getClientId } from '@@/use-cases/auth'
 import { plausibleClient } from '@@/infrastructure/plausible'
+import { getClientId } from '@@/use-cases/auth'
 
-type EventOptions = Record<string, any>
+type EventOptions = Record<string, unknown>
 
 const getDefaultProps = () => ({
   clientId: getClientId(),

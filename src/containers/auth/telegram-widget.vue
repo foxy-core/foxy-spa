@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
   import { onBeforeUnmount, onMounted } from 'vue'
-  import TelegramIcon from '~icons/mdi/telegram'
+
 
   import BaseButton from '@/components/ui/base-button.vue'
   import { TG_CONFIG } from '@@/shared/environment'
@@ -25,6 +25,8 @@
     createTelegramOauthListener,
   } from '@@/shared/telegram'
   import { useAuthViaTg } from '@@/use-cases/auth'
+
+  import TelegramIcon from '~icons/mdi/telegram'
 
   const authViaTg = useAuthViaTg()
 

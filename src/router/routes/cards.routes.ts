@@ -1,6 +1,7 @@
 import { RouteRecordRaw } from 'vue-router'
-import { CardsPage } from '@@/domain/cards'
+
 import CardsPageComponent from '@/pages/cards/cards-page.vue'
+import { CardsPage } from '@@/domain/cards'
 
 export const cardsRoutes: RouteRecordRaw[] = [
   {

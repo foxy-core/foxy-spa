@@ -5,9 +5,9 @@
       :placeholder="label || 'Input'"
       :value="modelValue"
       :autocomplete="autocomplete"
-      @input="onInput"
       :type="type"
       :class="inputStyles.inputElement(!!label, validationStatus)"
+      @input="onInput"
     />
     <label v-if="label" :class="inputStyles.labelElement" :for="id">
       <CustomTransition>
@@ -31,11 +31,12 @@
 </template>
 
 <script setup lang="ts">
-  import ExclamationIcon from '~icons/heroicons-outline/exclamation'
   import CustomTransition from '@/components/ui/custom-transition.vue'
-
   import { ValidationStatus } from '@@/domain/validation'
+
   import { inputStyles } from './shared-styles'
+
+  import ExclamationIcon from '~icons/heroicons-outline/exclamation'
 
   defineProps<{
     label?: string

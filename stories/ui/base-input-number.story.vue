@@ -5,9 +5,10 @@
 </template>
 
 <script setup lang="ts">
-  import BaseInputNumber from '@/components/ui/base-input-number.vue'
-  import { computed } from '@vue/reactivity'
+  import { computed } from 'vue'
   import { reactive, ref } from 'vue'
+
+  import BaseInputNumber from '@/components/ui/base-input-number.vue'
 
   const model = ref()
 

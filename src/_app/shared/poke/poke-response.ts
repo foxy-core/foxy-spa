@@ -13,5 +13,5 @@ export type PokeResponse<OutputDTO, ErrorReason extends string> =
   | {
       status: PokeResponseStatus.Rejected
       // TODO: types for error data to avoid using `as`?
-      result: PokeError<ErrorReason, any>
+      result: PokeError<ErrorReason, unknown>
     }

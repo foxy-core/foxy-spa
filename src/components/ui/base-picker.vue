@@ -2,9 +2,9 @@
   <div :class="multipickerStyles.container">
     <div :class="multipickerStyles.row">
       <div
-        :class="multipickerStyles.cellWrapper"
         v-for="{ displayValue, key } in options"
         :key="key"
+        :class="multipickerStyles.cellWrapper"
         @click="onClick(key)"
       >
         <div :class="multipickerStyles.cell(false, modelValue === key)">
@@ -17,6 +17,7 @@
 
 <script setup lang="ts">
   import type { PickerOption } from '@@/shared/ui-utils'
+
   import { multipickerStyles } from './shared-styles'
 
   const props = defineProps<{

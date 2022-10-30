@@ -5,9 +5,9 @@
       :placeholder="label || 'Input'"
       :value="modelValue"
       :autocomplete="autocomplete"
-      @input="onInput"
       type="number"
       :class="inputNumberStyles.inputElement(!!label, validationStatus)"
+      @input="onInput"
     />
     <label v-if="label" :class="inputNumberStyles.labelElement" :for="id">
       <CustomTransition>
@@ -30,22 +30,22 @@
 
     <div :class="inputNumberStyles.controlsContainer">
       <MinusIcon
+        ref="decrementElement"
         :class="
           inputNumberStyles.controlsIcon(
             animatedKeys.includes(AnimatedKey.Decrement),
           )
         "
         @click="decrement"
-        ref="decrementElement"
       />
       <PlusIcon
+        ref="incrementElement"
         :class="
           inputNumberStyles.controlsIcon(
             animatedKeys.includes(AnimatedKey.Increment),
           )
         "
         @click="increment"
-        ref="incrementElement"
       />
     </div>
   </div>
@@ -53,16 +53,18 @@
 
 <script setup lang="ts">
   import { nextTick, ref } from 'vue'
+
   import CustomTransition from '@/components/ui/custom-transition.vue'
-
-  import ExclamationIcon from '~icons/heroicons-outline/exclamation'
-  import PlusIcon from '~icons/heroicons-outline/plus'
-  import MinusIcon from '~icons/heroicons-outline/minus'
-
-  import { useAnimatedKeys } from '@@/shared/ui-utils'
   import { ValidationStatus } from '@@/domain/validation'
+  import { useAnimatedKeys } from '@@/shared/ui-utils'
 
   import { inputNumberStyles } from './shared-styles'
+
+  import ExclamationIcon from '~icons/heroicons-outline/exclamation'
+  import MinusIcon from '~icons/heroicons-outline/minus'
+  import PlusIcon from '~icons/heroicons-outline/plus'
+
+
 
   const enum AnimatedKey {
     Increment = 'increment',

@@ -21,8 +21,8 @@
 </template>
 
 <script setup lang="ts">
-  import BaseHeader from '@/containers/base/base-header.vue'
   import AuthorizedNavBar from '@/containers/base/authorized-nav-bar.vue'
+  import BaseHeader from '@/containers/base/base-header.vue'
   import AppNotifications from '@/containers/notifications/app-notifications.vue'
 </script>
 

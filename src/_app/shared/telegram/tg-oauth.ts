@@ -40,11 +40,7 @@ export const openTelegramPopup = (botId: string, origin: string) => {
 
   const url = getTelegramPopupUrl(botId, origin)
 
-  window.open(
-    getTelegramPopupUrl(botId, origin),
-    'telegram_oauth',
-    optionsString,
-  )
+  window.open(url, 'telegram_oauth', optionsString)
 }
 
 export const createTelegramOauthListener = (

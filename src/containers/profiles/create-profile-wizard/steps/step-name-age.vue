@@ -18,11 +18,11 @@
 </template>
 
 <script setup lang="ts">
-  import BaseInput from '@/components/ui/base-input.vue'
-  import { useProfileWizard } from '@@/use-cases/profiles'
-  import BaseTypography from '@/components/ui/base-typography.vue'
   import BaseButton from '@/components/ui/base-button.vue'
   import BaseInputNumber from '@/components/ui/base-input-number.vue'
+  import BaseInput from '@/components/ui/base-input.vue'
+  import BaseTypography from '@/components/ui/base-typography.vue'
+  import { useProfileWizard } from '@@/use-cases/profiles'
 
   const {
     stepNameForm: {

@@ -6,11 +6,11 @@ import {
   RedirectDecision,
   shouldRedirect,
 } from '@@/domain/auth'
+import { CardsPage } from '@@/domain/cards'
 import { exists } from '@@/shared/guards'
 import { getAccessToken } from '@@/use-cases/auth'
-import { CardsPage } from '@@/domain/cards'
 
-export const redirectOnAuthMiddleware: NavigationGuard = (to, from, next) => {
+export const redirectOnAuthMiddleware: NavigationGuard = (to, _from, next) => {
   const accessToken = getAccessToken()
 
   const isAuthorized = exists(accessToken)

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { computed, ComputedRef, ref, Ref } from 'vue'
 
 import { ValidationStatus, Validator } from '@@/domain/validation'
-import { executeOrGet } from '@@/shared/lang-utils'
 import { exists } from '@@/shared/guards'
+import { executeOrGet } from '@@/shared/lang-utils'
 
 const V_MODEL_VALUE_PROP = 'modelValue'
 const V_MODEL_EVENT_PROP = 'onUpdate:modelValue'
@@ -17,7 +18,7 @@ export const enum FormFieldType {
 type FormFieldOptions<T, F extends FormFieldType, O = {}> = O & {
   type: F
   initialValue?: T | (() => T)
-  validator?: Validator<T, any>
+  validator?: Validator<T, unknown>
   /**
    * @default false
    */
@@ -327,6 +328,7 @@ export const useForm = <
     submitForm,
     isLoading: computed(() => isLoading.value),
     state: computed(() => state.value as S),
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     bindings: bindings,
   }

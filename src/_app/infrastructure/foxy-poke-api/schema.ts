@@ -1,6 +1,6 @@
-import { PokeFactory } from '@@/shared/poke'
-import { HttpMethod } from '@@/shared/http-utils'
 import { GetEnumsOutput } from '@@/infrastructure/dto/schema'
+import { HttpMethod } from '@@/shared/http-utils'
+import { PokeFactory } from '@@/shared/poke'
 
 export const createSchemaMethods = (factory: PokeFactory) => {
   const schemaContext = factory.defineContext('schema')

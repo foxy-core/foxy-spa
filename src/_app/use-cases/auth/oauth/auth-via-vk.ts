@@ -1,9 +1,12 @@
 import { useRoute, useRouter } from 'vue-router'
 
-import { usePokeApi } from '@@/use-cases/shared'
+import { AuthPage } from '@@/domain/auth'
+import { CardsPage } from '@@/domain/cards'
+import { SignInStrategy } from '@@/infrastructure/dto/auth'
 import { PokeResponseStatus } from '@@/shared/poke'
 import { sendSignInEvent } from '@@/use-cases/analytics'
-import { CardsPage } from '@@/domain/cards'
+import { usePokeApi } from '@@/use-cases/shared'
+
 
 import {
   getClientId,
@@ -11,8 +14,7 @@ import {
   setRefreshToken,
   setTokenValidity,
 } from '../cookies'
-import { AuthPage } from '@@/domain/auth'
-import { SignInStrategy } from '@@/infrastructure/dto/auth'
+
 
 const VK_OAUTH_CODE_QUERY = 'code'
 

@@ -1,5 +1,6 @@
-import { AccountsPage } from '@@/domain/accounts'
 import { RouteRecordRaw } from 'vue-router'
+
+import { AccountsPage } from '@@/domain/accounts'
 
 export const accountRoutes: RouteRecordRaw[] = [
   {

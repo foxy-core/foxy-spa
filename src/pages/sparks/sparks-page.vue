@@ -5,9 +5,10 @@
 </template>
 
 <script setup lang="ts">
-  import BaseMultipicker from '@/components/ui/base-multpicker.vue'
   import { useHead } from '@vueuse/head'
   import { ref } from 'vue'
+
+  import BaseMultipicker from '@/components/ui/base-multpicker.vue'
 
   const state = ref<string[]>([])
 

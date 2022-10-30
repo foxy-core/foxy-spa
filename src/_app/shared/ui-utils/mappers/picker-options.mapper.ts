@@ -1,4 +1,5 @@
 import { CategorizedEnum, Enum } from '@@/domain/layout'
+
 import { PickerOption } from '../picker-option'
 
 export const enumToPickerOptions = (e: Enum): PickerOption[] =>

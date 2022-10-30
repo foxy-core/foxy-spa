@@ -7,9 +7,9 @@
     }}</BaseButton>
 
     <RouterLink
+      v-slot="{ navigate, href }"
       :to="{ name: ProfilesPage.CreateProfile }"
       custom
-      v-slot="{ navigate, href }"
     >
       <BaseButton tag="a" :href="href" @click="navigate">
         Создать профиль</BaseButton
@@ -20,11 +20,12 @@
 
 <script setup lang="ts">
   import { useHead } from '@vueuse/head'
+
   import BaseButton from '@/components/ui/base-button.vue'
-  import { signOut } from '@@/use-cases/auth'
-  import { useTheme } from '@@/use-cases/layout'
   import { Theme } from '@@/domain/layout'
   import { ProfilesPage } from '@@/domain/profiles'
+  import { signOut } from '@@/use-cases/auth'
+  import { useTheme } from '@@/use-cases/layout'
 
   useHead({
     title: 'Аккаунт',

@@ -12,8 +12,8 @@
 </template>
 
 <script setup lang="ts">
-  import { useAuthViaVk } from '@@/use-cases/auth'
   import BaseTypography from '@/components/ui/base-typography.vue'
+  import { useAuthViaVk } from '@@/use-cases/auth'
 
   const authViaVk = useAuthViaVk()
 

@@ -18,13 +18,13 @@
 <script setup lang="ts">
   import { computed } from 'vue'
 
-  import LeftIcon from '~icons/heroicons-outline/chevron-left'
 
   import BaseButton from '@/components/ui/base-button.vue'
   import CustomTransition from '@/components/ui/custom-transition.vue'
-
   import { ProfileWizardStep } from '@@/domain/profiles'
   import { useProfileWizard } from '@@/use-cases/profiles'
+
+  import LeftIcon from '~icons/heroicons-outline/chevron-left'
 
   const profileWizard = useProfileWizard()
 

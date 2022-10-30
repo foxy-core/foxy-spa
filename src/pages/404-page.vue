@@ -20,12 +20,13 @@
 </template>
 
 <script setup lang="ts">
-  import BaseButton from '@/components/ui/base-button.vue'
-  import SearchIcon from '~icons/heroicons-outline/search'
   import { useHead } from '@vueuse/head'
 
   import foxGif404 from '@/assets/gif/fox-gif-404.gif'
+  import BaseButton from '@/components/ui/base-button.vue'
   import BaseTypography from '@/components/ui/base-typography.vue'
+
+  import SearchIcon from '~icons/heroicons-outline/search'
 
   useHead({
     title: 'Не найдено',

@@ -26,9 +26,9 @@
     </BaseButton>
 
     <RouterLink
+      v-slot="{ href, navigate }"
       custom
       :to="{ name: AuthPage.SignUp }"
-      v-slot="{ href, navigate }"
     >
       <BaseButton tag="a" outline :href="href" @click="navigate">
         У меня нет аккаунта
@@ -61,17 +61,18 @@
 </template>
 
 <script setup lang="ts">
+  import BaseButton from '@/components/ui/base-button.vue'
+  import BaseInput from '@/components/ui/base-input.vue'
+  import BaseTypography from '@/components/ui/base-typography.vue'
+  import TelegramWidget from '@/containers/auth/telegram-widget.vue'
+  import { emailValidator, passwordValidator } from '@@/domain/accounts'
+  import { AuthPage } from '@@/domain/auth'
+  import { FormFieldType, useForm } from '@@/shared/forms'
+  import { useSignIn } from '@@/use-cases/auth'
+
   import LoginIcon from '~icons/heroicons-outline/login'
   import IonLogoVk from '~icons/ion/logo-vk'
 
-  import { emailValidator, passwordValidator } from '@@/domain/accounts'
-  import { FormFieldType, useForm } from '@@/shared/forms'
-  import { AuthPage } from '@@/domain/auth'
-  import TelegramWidget from '@/containers/auth/telegram-widget.vue'
-  import BaseTypography from '@/components/ui/base-typography.vue'
-  import BaseInput from '@/components/ui/base-input.vue'
-  import BaseButton from '@/components/ui/base-button.vue'
-  import { useSignIn } from '@@/use-cases/auth'
 
   const VK_OAUTH_LINK =
     'https://oauth.vk.com/authorize?client_id=51403577&display=popup&redirect_uri=https://foxy.talkiiing.ru/internal/redirect/vk&scope=email&response_type=code&v=5.131'

@@ -1,4 +1,5 @@
 import { z } from 'zod'
+
 import { zodValidator } from '@@/domain/validation'
 
 const latinAndCyrillic = /^[a-zа-яё]*$/i

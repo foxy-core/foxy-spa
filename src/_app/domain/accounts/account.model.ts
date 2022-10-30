@@ -1,4 +1,5 @@
 import { z } from 'zod'
+
 import { ValidationStatus, Validator, zodValidator } from '@@/domain/validation'
 
 const Email = z.string().email({

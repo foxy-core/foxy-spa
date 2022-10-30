@@ -1,5 +1,6 @@
-import { PageAuthRequirements } from '@@/domain/auth'
 import { RouteRecordRaw } from 'vue-router'
+
+import { PageAuthRequirements } from '@@/domain/auth'
 
 export const _404Routes: RouteRecordRaw[] = [
   {

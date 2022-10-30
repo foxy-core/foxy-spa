@@ -2,7 +2,6 @@
   <component
     :is="tag"
     class="group relative h-12 select-none overflow-hidden transition-all duration-100 active:translate-y-0.5 active:shadow-none cursor-pointer touch-manipulation"
-    @touchstart.passive=""
     :class="[
       {
         'flex items-center justify-center': center,
@@ -37,6 +36,7 @@
               'bg-opacity-80': semitransparent,
             }),
     ]"
+    @touchstart.passive="undefined"
   >
     <template v-if="!!$slots.icon && !isLoading">
       <div :class="{ 'mr-3': !circle }">
@@ -49,7 +49,7 @@
       <slot></slot>
     </template>
 
-    <CubeIcon class="w-6 h-6 animate-spin" v-else />
+    <CubeIcon v-else class="w-6 h-6 animate-spin" />
   </component>
 </template>
 

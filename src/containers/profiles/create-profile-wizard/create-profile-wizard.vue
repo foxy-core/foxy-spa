@@ -19,11 +19,11 @@
   import { ProfileWizardStep } from '@@/domain/profiles'
   import { useProfileWizard } from '@@/use-cases/profiles'
 
-  import StepNameAge from './steps/step-name-age.vue'
-  import StepInterests from './steps/step-interests.vue'
   import StepCongratulations from './steps/step-congratulations.vue'
-  import StepSmokingDrinking from './steps/step-smoking-drinking.vue'
+  import StepInterests from './steps/step-interests.vue'
+  import StepNameAge from './steps/step-name-age.vue'
   import StepPersonality from './steps/step-personality.vue'
+  import StepSmokingDrinking from './steps/step-smoking-drinking.vue'
 
   const { currentStep } = useProfileWizard()
 </script>

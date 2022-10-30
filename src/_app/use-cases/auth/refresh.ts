@@ -2,6 +2,7 @@ import { SignInStrategy } from '@@/infrastructure/dto/auth'
 import { createFoxyPokeClient } from '@@/infrastructure/foxy-poke-api'
 import { exists } from '@@/shared/guards'
 import { PokeResponseStatus } from '@@/shared/poke'
+
 import {
   getAccessToken,
   getClientId,

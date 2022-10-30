@@ -1,6 +1,7 @@
 import { RouteRecordRaw } from 'vue-router'
-import { AuthPage, PageAuthRequirements } from '@@/domain/auth'
+
 import SignInPage from '@/pages/auth/sign-in-page.vue'
+import { AuthPage, PageAuthRequirements } from '@@/domain/auth'
 
 export const authRoutes: RouteRecordRaw[] = [
   {

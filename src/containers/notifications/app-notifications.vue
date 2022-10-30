@@ -7,9 +7,9 @@
     class="p-4 pb-0 space-y-3 max-w-md"
   >
     <BaseNotification
-      class="transition-all duration-300"
       v-for="{ id, type, text, duration } in reversed"
       :key="id"
+      class="transition-all duration-300"
       :type="type"
       :text="text"
       :duration="duration"
@@ -19,9 +19,10 @@
 </template>
 
 <script setup lang="ts">
-  import { useNotificationsStore } from '@@/stores/notifications'
-  import BaseNotification from '@/components/ui/base-notification.vue'
   import { computed } from 'vue'
+
+  import BaseNotification from '@/components/ui/base-notification.vue'
+  import { useNotificationsStore } from '@@/stores/notifications'
 
   const store = useNotificationsStore()
 

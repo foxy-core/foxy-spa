@@ -32,9 +32,9 @@
     </BaseButton>
 
     <RouterLink
+      v-slot="{ href, navigate }"
       custom
       :to="{ name: AuthPage.SignIn }"
-      v-slot="{ href, navigate }"
     >
       <BaseButton tag="a" outline :href="href" @click="navigate">
         Я уже зарегистрирован
@@ -44,18 +44,19 @@
 </template>
 
 <script setup lang="ts">
-  import LoginIcon from '~icons/heroicons-outline/login'
+  import BaseButton from '@/components/ui/base-button.vue'
+  import BaseInput from '@/components/ui/base-input.vue'
+  import BaseTypography from '@/components/ui/base-typography.vue'
   import {
     confirmPasswordValidator,
     emailValidator,
     passwordValidator,
   } from '@@/domain/accounts'
-  import { useSignUp } from '@@/use-cases/auth'
-  import { FormFieldType, useForm } from '@@/shared/forms'
-  import BaseInput from '@/components/ui/base-input.vue'
-  import BaseButton from '@/components/ui/base-button.vue'
-  import BaseTypography from '@/components/ui/base-typography.vue'
   import { AuthPage } from '@@/domain/auth'
+  import { FormFieldType, useForm } from '@@/shared/forms'
+  import { useSignUp } from '@@/use-cases/auth'
+
+  import LoginIcon from '~icons/heroicons-outline/login'
 
   const signUp = useSignUp()
 

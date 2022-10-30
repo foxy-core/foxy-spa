@@ -1,8 +1,8 @@
 import { HttpMethod } from '@@/shared/http-utils'
 
 import { definePokeMethod, PokeMethodOptions } from './poke-method'
-import { PokeError, PokeResponse } from './poke-response'
 import { PokeRequest } from './poke-request'
+import { PokeError, PokeResponse } from './poke-response'
 
 export type PokeFactoryOptions = {
   baseUrl: string

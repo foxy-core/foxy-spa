@@ -1,6 +1,7 @@
-import { Theme } from '@@/domain/layout'
 import { defineStore } from 'pinia'
 import { readonly, ref } from 'vue'
+
+import { Theme } from '@@/domain/layout'
 
 const LOCAL_STORAGE_THEME_KEY = 'foxy-theme'
 const DARK_THEME_CLASS = 'dark'
@@ -20,6 +21,7 @@ export const useThemeStore = defineStore('layout/theme', () => {
     currentTheme.value = themeToSet
     localStorage.setItem(LOCAL_STORAGE_THEME_KEY, themeToSet)
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const html = document.querySelector('html')!
 
     if (themeToSet === Theme.Dark) {

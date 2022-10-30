@@ -1,7 +1,8 @@
+import { computed } from 'vue'
+
 import { PokeResponseStatus } from '@@/shared/poke'
 import { useEnumsStore } from '@@/stores/layout'
 import { usePokeApi } from '@@/use-cases/shared'
-import { computed } from 'vue'
 
 export const useEnums = () => {
   const pokeApi = usePokeApi()

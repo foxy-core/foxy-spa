@@ -1,12 +1,15 @@
+
 import { useRouter } from 'vue-router'
 
-import { PokeResponseStatus } from '@@/shared/poke'
-import { usePokeApi } from '@@/use-cases/shared'
 import { Email, Password } from '@@/domain/accounts'
-import { useNotify } from '@@/use-cases/notifications'
+import { CardsPage } from '@@/domain/cards'
 import { NotificationType } from '@@/domain/notifications'
+import { SignInStrategy } from '@@/infrastructure/dto/auth'
 import { AuthenticationError } from '@@/infrastructure/dto/errors'
+import { PokeResponseStatus } from '@@/shared/poke'
 import { sendSignInEvent } from '@@/use-cases/analytics'
+import { useNotify } from '@@/use-cases/notifications'
+import { usePokeApi } from '@@/use-cases/shared'
 
 import {
   getClientId,
@@ -14,8 +17,6 @@ import {
   setRefreshToken,
   setTokenValidity,
 } from './cookies'
-import { CardsPage } from '@@/domain/cards'
-import { SignInStrategy } from '@@/infrastructure/dto/auth'
 
 type SignInInput = {
   email: Email

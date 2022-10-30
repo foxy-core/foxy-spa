@@ -1,10 +1,13 @@
+
 import { useRouter } from 'vue-router'
 
-import { usePokeApi } from '@@/use-cases/shared'
-import { PokeResponseStatus } from '@@/shared/poke'
 import { AuthPage } from '@@/domain/auth'
+import { CardsPage } from '@@/domain/cards'
+import { SignInStrategy } from '@@/infrastructure/dto/auth'
+import { PokeResponseStatus } from '@@/shared/poke'
 import { TelegramOauthResult } from '@@/shared/telegram'
 import { sendSignInEvent } from '@@/use-cases/analytics'
+import { usePokeApi } from '@@/use-cases/shared'
 
 import {
   getClientId,
@@ -12,8 +15,6 @@ import {
   setRefreshToken,
   setTokenValidity,
 } from '../cookies'
-import { CardsPage } from '@@/domain/cards'
-import { SignInStrategy } from '@@/infrastructure/dto/auth'
 
 export const useAuthViaTg = () => {
   const router = useRouter()

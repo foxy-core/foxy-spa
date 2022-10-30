@@ -1,4 +1,5 @@
 import { sendSignOutEvent } from '@@/use-cases/analytics'
+
 import {
   clearAccessToken,
   clearRefreshToken,

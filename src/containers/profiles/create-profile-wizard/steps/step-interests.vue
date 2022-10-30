@@ -18,10 +18,10 @@
 </template>
 
 <script setup lang="ts">
-  import { useProfileWizard } from '@@/use-cases/profiles'
-  import BaseTypography from '@/components/ui/base-typography.vue'
-  import BaseMultpicker from '@/components/ui/base-multpicker.vue'
   import BaseButton from '@/components/ui/base-button.vue'
+  import BaseMultpicker from '@/components/ui/base-multpicker.vue'
+  import BaseTypography from '@/components/ui/base-typography.vue'
+  import { useProfileWizard } from '@@/use-cases/profiles'
 
   const {
     interestsOptions,

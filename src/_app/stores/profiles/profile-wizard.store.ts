@@ -1,3 +1,7 @@
+import { useLocalStorage } from '@vueuse/core'
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
+
 import {
   ProfileWizardStep,
   ProfileWizardStepInterests,
@@ -5,9 +9,6 @@ import {
   ProfileWizardStepPersonality,
   ProfileWizardStepSmokingDrinking,
 } from '@@/domain/profiles'
-import { useLocalStorage } from '@vueuse/core'
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
 
 const LOCAL_STORAGE_KEY = 'foxy-profile-wizard'
 

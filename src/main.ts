@@ -1,11 +1,13 @@
 import './styles/index.css'
 
-import { createApp } from 'vue'
-import App from './app.vue'
-import { createFoxyRouter } from '@/router'
 import { createHead } from '@vueuse/head'
-import { checkClientId } from '@@/use-cases/auth'
 import { createPinia } from 'pinia'
+import { createApp } from 'vue'
+
+import { createFoxyRouter } from '@/router'
+import { checkClientId } from '@@/use-cases/auth'
+
+import App from './app.vue'
 
 checkClientId()
 

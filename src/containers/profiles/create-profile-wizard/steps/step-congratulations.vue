@@ -12,11 +12,11 @@
     </BaseTypography>
 
     <RouterLink
+      v-slot="{ href, navigate }"
       :to="{ name: CardsPage.Cards }"
       custom
-      v-slot="{ href, navigate }"
     >
-      <BaseButton tag="a" :href="href" @click="navigate" class="mx-auto"
+      <BaseButton tag="a" :href="href" class="mx-auto" @click="navigate"
         >На главную</BaseButton
       >
     </RouterLink>
@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-  import { CardsPage } from '@@/domain/cards'
-  import BaseTypography from '@/components/ui/base-typography.vue'
   import BaseButton from '@/components/ui/base-button.vue'
+  import BaseTypography from '@/components/ui/base-typography.vue'
+  import { CardsPage } from '@@/domain/cards'
 </script>

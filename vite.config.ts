@@ -1,16 +1,16 @@
 import * as path from 'path'
-import { defineConfig, Plugin } from 'vite'
-import vue from '@vitejs/plugin-vue'
 
-import unpluginIcons from 'unplugin-icons/vite'
-import svgLoader from 'vite-svg-loader'
+import vue from '@vitejs/plugin-vue'
+import { minify as minifyHtml } from 'html-minifier'
 import analyze from 'rollup-plugin-analyzer'
 import visualize from 'rollup-plugin-visualizer'
-import { minify as minifyHtml } from 'html-minifier'
+import unpluginIcons from 'unplugin-icons/vite'
+import { defineConfig, Plugin } from 'vite'
+import svgLoader from 'vite-svg-loader'
 
 const minifyHtmlPlugin = (): Plugin => ({
   name: 'foxy:minify-html',
-  transformIndexHtml: (source, ctx) => {
+  transformIndexHtml: source => {
     const minified = minifyHtml(source, {
       html5: true,
       collapseWhitespace: true,
@@ -59,8 +59,8 @@ export default defineConfig(({ command }) => {
     build: {
       rollupOptions: {
         manualChunks: {
-          'vue-chunk': ['vue', 'vue-router'],
-          'vendors-chunk': ['axios', 'zod'],
+          ['vue-chunk']: ['vue', 'vue-router'],
+          ['vendors-chunk']: ['axios', 'zod'],
         },
       },
     },

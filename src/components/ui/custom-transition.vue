@@ -1,9 +1,11 @@
 <template>
-  <Transition v-bind="classes"><slot /></Transition>
+  <Transition v-bind="classes">
+    <slot />
+  </Transition>
 </template>
 
 <script setup lang="ts">
-  import { computed, Transition } from 'vue'
+  import { computed } from 'vue'
 
   const props = withDefaults(
     defineProps<{
@@ -38,5 +40,7 @@
         leaveToClass: 'transform opacity-0 -translate-y-1/3',
       }
     }
+
+    return null
   })
 </script>

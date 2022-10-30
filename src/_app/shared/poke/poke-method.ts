@@ -1,7 +1,9 @@
-import { CommonError, InternalError } from '@@/infrastructure/dto/errors'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
+import { CommonError, InternalError } from '@@/infrastructure/dto/errors'
+
 import { HttpMethod } from '../http-utils'
+
 import { PokeRequest } from './poke-request'
 import { PokeResponse, PokeResponseStatus } from './poke-response'
 

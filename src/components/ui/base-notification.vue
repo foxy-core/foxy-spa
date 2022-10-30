@@ -40,9 +40,9 @@
 <script setup lang="ts">
   import { computed, onMounted, ref } from 'vue'
 
-  import CloseIcon from '~icons/heroicons-outline/x'
-  import ExclamationIcon from '~icons/heroicons-outline/exclamation'
   import CheckIcon from '~icons/heroicons-outline/check'
+  import ExclamationIcon from '~icons/heroicons-outline/exclamation'
+  import CloseIcon from '~icons/heroicons-outline/x'
 
   const props = defineProps<{
     duration: number
@@ -71,6 +71,8 @@
         return null
       }
     }
+
+    return null
   })
 
   const startCounter = ref(false)

@@ -25,12 +25,13 @@
 </template>
 
 <script setup lang="ts">
-  import { useProfileWizard } from '@@/use-cases/profiles'
-  import BaseTypography from '@/components/ui/base-typography.vue'
   import BaseButton from '@/components/ui/base-button.vue'
   import BasePicker from '@/components/ui/base-picker.vue'
-  import TwemojiWineGlass from '~icons/twemoji/wine-glass'
+  import BaseTypography from '@/components/ui/base-typography.vue'
+  import { useProfileWizard } from '@@/use-cases/profiles'
+
   import TwemojiCigarette from '~icons/twemoji/cigarette'
+  import TwemojiWineGlass from '~icons/twemoji/wine-glass'
 
   const {
     stepSmokingDrinkingForm: {

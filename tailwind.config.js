@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const typography = require('@tailwindcss/typography')
 const defaultTheme = require('tailwindcss/defaultTheme')
 
