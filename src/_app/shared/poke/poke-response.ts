@@ -13,5 +13,6 @@ export type PokeResponse<OutputDTO, ErrorReason extends string> =
   | {
       status: PokeResponseStatus.Rejected
       // TODO: types for error data to avoid using `as`?
-      result: PokeError<ErrorReason, unknown>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      result: PokeError<ErrorReason, any>
     }

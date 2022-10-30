@@ -18,7 +18,8 @@ export const enum FormFieldType {
 type FormFieldOptions<T, F extends FormFieldType, O = {}> = O & {
   type: F
   initialValue?: T | (() => T)
-  validator?: Validator<T, unknown>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  validator?: Validator<T, any>
   /**
    * @default false
    */
