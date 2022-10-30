@@ -10,5 +10,5 @@
 </template>
 
 <script setup lang="ts">
-  import FoxyMainLogo from '@/assets/svg/foxy-main-logo.svg'
+  import FoxyMainLogo from '@/assets/svg/foxy-main-logo.svg?component'
 </script>
