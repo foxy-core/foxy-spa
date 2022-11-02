@@ -63,11 +63,13 @@
   })
 
   const layout = computed(() => {
-    return route.meta.layout ??
+    return (
+      route.meta.layout ??
       (!exists(route.meta.auth) ||
-        route.meta.auth === PageAuthRequirements.Authorized)
-      ? AuthorizedLayout
-      : DefaultLayout
+      route.meta.auth === PageAuthRequirements.Authorized
+        ? AuthorizedLayout
+        : DefaultLayout)
+    )
   })
 
   refresh()

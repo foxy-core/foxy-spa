@@ -2,6 +2,7 @@
   <div
     ref="rootRef"
     class="origin-bottom touch-manipulation select-none relative group/swipeable"
+    :class="disabled && 'pointer-events-none'"
     @mousedown.left="startSwipe(false)"
     @touchstart="startSwipe(true)"
   >
@@ -50,10 +51,12 @@
     defineProps<{
       iconTriggerValue?: number
       swipeTriggerValue?: number
+      disabled?: boolean
     }>(),
     {
       iconTriggerValue: 40,
       swipeTriggerValue: 90,
+      disabled: false,
     },
   )
 

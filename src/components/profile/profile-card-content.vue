@@ -12,10 +12,10 @@
       <div class="w-full flex flex-row justify-between items-center">
         <div
           v-if="cardInfo.lookingFor"
-          class="font-bold text-xs py-1 px-3 flex flex-row space-x-1.5 bg-white rounded-full"
+          class="text-xs py-1 px-3 flex flex-row items-center space-x-1.5 bg-white rounded-full"
         >
           <component :is="lookingForIconMap[cardInfo.lookingFor]" />
-          <span>
+          <span class="font-normal">
             {{ lookingForHintMap[cardInfo.lookingFor] }}
           </span>
         </div>
