@@ -28,9 +28,16 @@ const getVarsForColors = (
   return result
 }
 
+const contentFiles = ['src/**/*.{vue,ts,js}']
+
+if (process.env.TAILWIND_STORIES) {
+  console.log('[tailwind] Purging stories files')
+  contentFiles.push('stories/**/*.{vue,ts,js}')
+}
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['src/**/*.{vue,ts,js}'],
+  content: contentFiles,
   darkMode: 'class',
   theme: {
     extend: {

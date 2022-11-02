@@ -9,8 +9,7 @@
 
   const props = withDefaults(
     defineProps<{
-      // TODO: support more types
-      type?: 'up' | 'bottom'
+      type?: 'up' | 'bottom' | 'pop'
     }>(),
     {
       type: 'up',
@@ -38,6 +37,17 @@
         leaveActiveClass: 'duration-100 ease-in',
         leaveFromClass: 'opacity-100',
         leaveToClass: 'transform opacity-0 -translate-y-1/3',
+      }
+    }
+
+    if (type === 'pop') {
+      return {
+        enterActiveClass: 'duration-200 transform ease-out',
+        enterFromClass: 'transform opacity-0 scale-[0.3]',
+        enterToClass: 'opacity-100 scale-100',
+        leaveActiveClass: 'duration-100 transform ease-in',
+        leaveFromClass: 'opacity-100 scale-100',
+        leaveToClass: 'transform opacity-0 scale-[0.3]',
       }
     }
 

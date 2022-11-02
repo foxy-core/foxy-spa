@@ -4,7 +4,11 @@ export type FrequencyEnum = Enum
 
 export type InterestsEnum = CategorizedEnum
 
-export type LookingForEnum = Enum
+export enum LookingFor {
+  Love = 'Love',
+  Friendship = 'Friendship',
+  LikeMinded = 'LikeMinded',
+}
 
 export type MaritalStatusEnum = Enum
 
@@ -17,7 +21,6 @@ export type ZodiacEnum = Enum
 export type StoredEnums = {
   Frequency: FrequencyEnum
   Interests: InterestsEnum
-  LookingFor: LookingForEnum
   MaritalStatus: MaritalStatusEnum
   Personality: PersonalityEnum
   Sex: SexEnum
