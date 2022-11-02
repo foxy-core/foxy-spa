@@ -1,33 +1,9 @@
 @font-face {
-  font-family: 'Montserrat';
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-  src: url(/fonts/montserrat-variable.woff2) format('woff2');
-}
-
-@font-face {
-  font-family: 'Montserrat';
+  font-family: 'Lato';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(/fonts/montserrat-variable.woff2) format('woff2');
-}
-
-@font-face {
-  font-family: 'Montserrat';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url(/fonts/montserrat-variable.woff2) format('woff2');
-}
-
-@font-face {
-  font-family: 'Ubuntu';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(/fonts/ubuntu-regular.woff2) format('woff2');
+  src: url(/fonts/Lato-Regular.woff2) format('woff2');
 }
 
 @font-face {
@@ -35,5 +11,29 @@
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(/fonts/ubuntu-medium.woff2) format('woff2');
+  src: url(/fonts/Lato-Bold.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Jost';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/Jost-Variable.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Jost';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(/fonts/Jost-Variable.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Jost';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(/fonts/Jost-Variable.woff2) format('woff2');
 }

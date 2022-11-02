@@ -102,8 +102,8 @@ module.exports = {
       '2xl': '1536px',
     },
     fontFamily: {
-      primary: ['Montserrat', ...defaultTheme.fontFamily.sans],
-      headings: ['Ubuntu', ...defaultTheme.fontFamily.sans],
+      primary: ['Lato', ...defaultTheme.fontFamily.sans],
+      headings: ['Jost', ...defaultTheme.fontFamily.sans],
     },
   },
   plugins: [typography()],
