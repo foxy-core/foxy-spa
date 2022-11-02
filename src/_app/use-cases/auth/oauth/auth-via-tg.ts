@@ -1,4 +1,3 @@
-
 import { useRouter } from 'vue-router'
 
 import { AuthPage } from '@@/domain/auth'

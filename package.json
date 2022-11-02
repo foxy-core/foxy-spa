@@ -10,6 +10,7 @@
     "story:dev": "TAILWIND_STORIES=1 histoire dev",
     "story:build": "TAILWIND_STORIES=1 histoire build",
     "story:preview": "TAILWIND_STORIES=1 histoire preview",
+    "format": "prettier .",
     "dep-graph": "depcruise --ts-config tsconfig.json --include-only \"^src\" --output-type dot src | dot -T png > dependencygraph.png"
   },
   "dependencies": {

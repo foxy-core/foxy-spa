@@ -9,14 +9,12 @@ import { sendSignUpEvent } from '@@/use-cases/analytics'
 import { useNotify } from '@@/use-cases/notifications'
 import { usePokeApi } from '@@/use-cases/shared'
 
-
 import {
   getClientId,
   setAccessToken,
   setRefreshToken,
   setTokenValidity,
 } from './cookies'
-
 
 type SignUpInput = {
   email: Email

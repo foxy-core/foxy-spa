@@ -3,7 +3,6 @@ import { ref, readonly } from 'vue'
 
 import { Notification } from '@@/domain/notifications'
 
-
 type StoredNotification = Notification & {
   id: number
 }

@@ -11,9 +11,9 @@
     />
     <label v-if="label" :class="inputNumberStyles.labelElement" :for="id">
       <CustomTransition>
-        <span v-if="errorString" :class="inputNumberStyles.errorLabel">{{
-          errorString
-        }}</span>
+        <span v-if="errorString" :class="inputNumberStyles.errorLabel">
+          {{ errorString }}
+        </span>
         <span v-else :class="inputNumberStyles.defaultLabel">
           {{ label }}
         </span>
@@ -63,8 +63,6 @@
   import ExclamationIcon from '~icons/heroicons-outline/exclamation'
   import MinusIcon from '~icons/heroicons-outline/minus'
   import PlusIcon from '~icons/heroicons-outline/plus'
-
-
 
   const enum AnimatedKey {
     Increment = 'increment',

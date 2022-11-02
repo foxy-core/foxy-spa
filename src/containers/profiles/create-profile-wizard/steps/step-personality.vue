@@ -9,8 +9,9 @@
     <BaseButton
       class="w-full mt-5 sticky bottom-[calc(env(safe-area-inset-bottom)+5rem)] left-0"
       @click="submitForm"
-      >Далее</BaseButton
     >
+      Далее
+    </BaseButton>
   </form>
 </template>
 

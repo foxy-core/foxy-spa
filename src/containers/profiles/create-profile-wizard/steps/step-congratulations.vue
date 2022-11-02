@@ -5,7 +5,8 @@
 
       <p>
         Вы прошли это и теперь у вас есть
-        <span class="text-primary">профиль</span>!
+        <span class="text-primary">профиль</span>
+        !
       </p>
 
       <small>To be continued...</small>
@@ -16,9 +17,9 @@
       :to="{ name: CardsPage.Cards }"
       custom
     >
-      <BaseButton tag="a" :href="href" class="mx-auto" @click="navigate"
-        >На главную</BaseButton
-      >
+      <BaseButton tag="a" :href="href" class="mx-auto" @click="navigate">
+        На главную
+      </BaseButton>
     </RouterLink>
   </div>
 </template>

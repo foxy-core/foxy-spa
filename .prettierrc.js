@@ -11,4 +11,5 @@ module.exports = {
   bracketSpacing: true,
   bracketSameLine: false,
   arrowParens: 'avoid',
+  htmlWhitespaceSensitivity: 'ignore',
 }

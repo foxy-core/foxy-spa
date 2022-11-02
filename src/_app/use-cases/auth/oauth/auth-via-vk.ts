@@ -7,14 +7,12 @@ import { PokeResponseStatus } from '@@/shared/poke'
 import { sendSignInEvent } from '@@/use-cases/analytics'
 import { usePokeApi } from '@@/use-cases/shared'
 
-
 import {
   getClientId,
   setAccessToken,
   setRefreshToken,
   setTokenValidity,
 } from '../cookies'
-
 
 const VK_OAUTH_CODE_QUERY = 'code'
 

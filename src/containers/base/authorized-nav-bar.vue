@@ -34,7 +34,6 @@
   import SparklesIcon from '~icons/heroicons-solid/sparkles'
   import UserIcon from '~icons/heroicons-solid/user-circle'
 
-
   type NavBarItem = {
     icon: Component
     to: RouteLocationRaw

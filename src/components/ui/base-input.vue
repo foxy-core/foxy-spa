@@ -11,9 +11,9 @@
     />
     <label v-if="label" :class="inputStyles.labelElement" :for="id">
       <CustomTransition>
-        <span v-if="errorString" :class="inputStyles.errorLabel">{{
-          errorString
-        }}</span>
+        <span v-if="errorString" :class="inputStyles.errorLabel">
+          {{ errorString }}
+        </span>
         <span v-else :class="inputStyles.defaultLabel">
           {{ label }}
         </span>

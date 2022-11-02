@@ -73,7 +73,6 @@
   import LoginIcon from '~icons/heroicons-outline/login'
   import IonLogoVk from '~icons/ion/logo-vk'
 
-
   const VK_OAUTH_LINK =
     'https://oauth.vk.com/authorize?client_id=51403577&display=popup&redirect_uri=https://foxy.talkiiing.ru/internal/redirect/vk&scope=email&response_type=code&v=5.131'
 

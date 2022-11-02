@@ -2,9 +2,9 @@
   <div class="flex flex-col items-center space-y-3 w-full">
     <BaseButton outline variant="secondary" @click="signOut">Выйти</BaseButton>
 
-    <BaseButton outline @click="theme.toggleCurrentTheme">{{
-      theme.currentTheme === Theme.Dark ? 'Светлая тема' : 'Темная тема'
-    }}</BaseButton>
+    <BaseButton outline @click="theme.toggleCurrentTheme">
+      {{ theme.currentTheme === Theme.Dark ? 'Светлая тема' : 'Темная тема' }}
+    </BaseButton>
 
     <RouterLink
       v-slot="{ navigate, href }"
@@ -12,9 +12,9 @@
       custom
     >
       <BaseButton tag="a" :href="href" @click="navigate">
-        Создать профиль</BaseButton
-      ></RouterLink
-    >
+        Создать профиль
+      </BaseButton>
+    </RouterLink>
   </div>
 </template>
 

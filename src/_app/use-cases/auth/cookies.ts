@@ -1,4 +1,3 @@
-
 import Cookies from 'universal-cookie'
 
 import { AuthorizationCookies, ClientId } from '@@/domain/auth'

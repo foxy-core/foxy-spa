@@ -1,4 +1,3 @@
-
 import { useRouter } from 'vue-router'
 
 import { Email, Password } from '@@/domain/accounts'

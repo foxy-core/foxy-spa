@@ -29,8 +29,9 @@
             <h2 class="text-white inline">{{ cardInfo.name }}</h2>
             <span
               class="text-2xl opacity-80 font-light font-headings text-white ml-2"
-              >{{ cardInfo.age }}</span
             >
+              {{ cardInfo.age }}
+            </span>
           </div>
 
           <div class="flex flex-row space-x-2">

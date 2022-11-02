@@ -17,7 +17,6 @@
 <script setup lang="ts">
   import { onBeforeUnmount, onMounted } from 'vue'
 
-
   import BaseButton from '@/components/ui/base-button.vue'
   import { TG_CONFIG } from '@@/shared/environment'
   import {
