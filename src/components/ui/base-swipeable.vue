@@ -16,20 +16,22 @@
       <slot :is-held="isHeld"></slot>
     </div>
 
-    <div
-      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-transform transform-gpu duration-500 remove-second-child"
-      :class="isSwipeTriggered && 'scale-125'"
-    >
-      <CustomTransition type="pop">
-        <slot
-          v-if="isIconTriggered && direction === Direction.Left"
-          name="on-left"
-        ></slot>
-        <slot
-          v-if="isIconTriggered && direction === Direction.Right"
-          name="on-right"
-        ></slot>
-      </CustomTransition>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div
+        class="transition-transform transform-gpu duration-500 remove-second-child"
+        :class="isSwipeTriggered && 'scale-125'"
+      >
+        <CustomTransition type="pop">
+          <slot
+            v-if="isIconTriggered && direction === Direction.Left"
+            name="on-left"
+          ></slot>
+          <slot
+            v-if="isIconTriggered && direction === Direction.Right"
+            name="on-right"
+          ></slot>
+        </CustomTransition>
+      </div>
     </div>
   </div>
 </template>
