@@ -29,11 +29,11 @@ export const useRefresh = () => {
       return
     }
 
-    if (exists(tokenValidity)) {
+    if (tokenValidity) {
       return
     }
 
-    if (!exists(accessToken) || !exists(accessToken)) {
+    if (!exists(accessToken) || !exists(refreshToken)) {
       return signOut()
     }
 
