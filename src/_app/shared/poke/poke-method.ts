@@ -22,14 +22,16 @@ export const definePokeMethod =
   async (
     input: PokeRequest<InputDTO> = {},
   ): Promise<PokeResponse<OutputDTO, Error>> => {
-    try {
-      input = (await options.before(input)) ?? input
-    } catch (e) {
-      return {
-        status: PokeResponseStatus.Rejected,
-        result: {
-          reason: InternalError.Unknown,
-        },
+    if (!input.skipBeforeHooks) {
+      try {
+        input = (await options.before(input)) ?? input
+      } catch (e) {
+        return {
+          status: PokeResponseStatus.Rejected,
+          result: {
+            reason: InternalError.Unknown,
+          },
+        }
       }
     }
 

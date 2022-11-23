@@ -7,7 +7,7 @@ import { createSchemaMethods } from './schema'
 export const createFoxyPokeClient = () => {
   const factory = createPokeFactory({
     baseUrl:
-      (import.meta.env.NUXT_PUBLIC_POKE_BASE_URL as string) ??
+      (import.meta.env.VITE_POKE_BASE_URL as string) ??
       'https://foxy.s.talkiiing.ru/api',
   })
 

@@ -20,17 +20,17 @@
   import { unmountSplashScreen } from '@@/shared/splash'
   import { getAccessToken, useRefresh } from '@@/use-cases/auth'
   import { useNotify } from '@@/use-cases/notifications'
-  import { providePokeApi } from '@@/use-cases/shared'
+  import { usePokeApi } from '@@/use-cases/shared'
 
   useHead({
     titleTemplate: chunk => (chunk ? `${chunk} | Foxy` : 'Foxy'),
   })
 
-  const pokeApi = providePokeApi()
+  const pokeApi = usePokeApi()
   const refresh = useRefresh()
   const notify = useNotify()
 
-  pokeApi._factory // prettier stop it pls
+  pokeApi._factory
     .beforeEach(refresh)
     .beforeEach(input => ({
       ...input,

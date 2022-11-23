@@ -1,7 +1,8 @@
 import { SignInStrategy } from '@@/infrastructure/dto/auth'
-import { createFoxyPokeClient } from '@@/infrastructure/foxy-poke-api'
 import { exists } from '@@/shared/guards'
 import { PokeResponseStatus } from '@@/shared/poke'
+
+import { usePokeApi } from '../shared'
 
 import {
   getAccessToken,
@@ -15,9 +16,7 @@ import {
 import { signOut } from './sign-out'
 
 export const useRefresh = () => {
-  // creating separate client because it would call itself recursively
-  // TODO: solve this
-  const pokeApi = createFoxyPokeClient()
+  const pokeApi = usePokeApi()
 
   return async () => {
     const accessToken = getAccessToken()
@@ -49,6 +48,7 @@ export const useRefresh = () => {
       meta: {
         expectedErrors: true,
       },
+      skipBeforeHooks: true,
     })
 
     if (response.status === PokeResponseStatus.Rejected) {
