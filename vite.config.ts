@@ -6,6 +6,7 @@ import analyze from 'rollup-plugin-analyzer'
 import visualize from 'rollup-plugin-visualizer'
 import unpluginIcons from 'unplugin-icons/vite'
 import { defineConfig, Plugin } from 'vite'
+import { VitePWA } from 'vite-plugin-pwa'
 import svgLoader from 'vite-svg-loader'
 
 const minifyHtmlPlugin = (): Plugin => ({
@@ -32,6 +33,48 @@ export default defineConfig(({ command }) => {
   return {
     plugins: [
       vue(),
+
+      VitePWA({
+        injectRegister: 'inline',
+        registerType: 'autoUpdate',
+
+        manifest: {
+          name: 'Foxy',
+          short_name: 'Foxy',
+          theme_color: '#fea360',
+          lang: 'ru',
+          description: 'Made for people to connect',
+          display: 'standalone',
+
+          icons: [
+            {
+              src: 'pwa-icon/pwa-icon_vector.svg',
+              sizes: '512x512',
+              type: 'image/svg+xml',
+            },
+            {
+              src: 'pwa-icon/pwa-icon96.png',
+              sizes: '96x96',
+              type: 'image/png',
+            },
+            {
+              src: 'pwa-icon/pwa-icon144.png',
+              sizes: '144x144',
+              type: 'image/png',
+            },
+            {
+              src: 'pwa-icon/pwa-icon192.png',
+              sizes: '192x192',
+              type: 'image/png',
+            },
+            {
+              src: 'pwa-icon/pwa-icon512.png',
+              sizes: '512x512',
+              type: 'image/png',
+            },
+          ],
+        },
+      }),
 
       unpluginIcons({
         autoInstall: true,
