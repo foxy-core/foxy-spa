@@ -11,3 +11,9 @@ body {
 hr {
   @apply border-surface-200;
 }
+
+@media all and (display-mode: standalone) {
+  body {
+    @apply h-screen;
+  }
+}

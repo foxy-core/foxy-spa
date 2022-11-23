@@ -10,7 +10,9 @@
     </BaseHeader>
     <AppNotifications class="w-full fixed top-0 left-0 right-0 z-50" />
 
-    <main class="flex-1 w-full mt-24 pb-24 flex flex-col items-center">
+    <main
+      class="flex-1 w-full safe-margin-top pb-24 flex flex-col items-center"
+    >
       <slot />
     </main>
 
@@ -29,5 +31,9 @@
 <style scoped>
   .nav-bar {
     padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-margin-top {
+    margin-top: calc(env(safe-area-inset-top, 0) + 6rem);
   }
 </style>
