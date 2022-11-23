@@ -5,7 +5,6 @@ import { CardsPage } from '@@/domain/cards'
 import { SignInStrategy } from '@@/infrastructure/dto/auth'
 import { PokeResponseStatus } from '@@/shared/poke'
 import { TelegramOauthResult } from '@@/shared/telegram'
-import { sendSignInEvent } from '@@/use-cases/analytics'
 import { usePokeApi } from '@@/use-cases/shared'
 
 import {
@@ -39,7 +38,6 @@ export const useAuthViaTg = () => {
       setTokenValidity(true, response.result.expiresIn)
       setRefreshToken(response.result.refreshToken)
       setAccessToken(response.result.token)
-      sendSignInEvent('tg')
 
       router.replace({
         name: CardsPage.Cards,

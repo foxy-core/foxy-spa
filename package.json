@@ -20,7 +20,6 @@
     "@vueuse/shared": "^9.4.0",
     "axios": "^0.27.2",
     "pinia": "^2.0.20",
-    "plausible-tracker": "^0.3.8",
     "qs": "^6.11.0",
     "rollup-plugin-visualizer": "^5.8.0",
     "ufo": "^0.8.5",

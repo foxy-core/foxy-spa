@@ -6,7 +6,6 @@ import { NotificationType } from '@@/domain/notifications'
 import { SignInStrategy } from '@@/infrastructure/dto/auth'
 import { AuthenticationError } from '@@/infrastructure/dto/errors'
 import { PokeResponseStatus } from '@@/shared/poke'
-import { sendSignInEvent } from '@@/use-cases/analytics'
 import { useNotify } from '@@/use-cases/notifications'
 import { usePokeApi } from '@@/use-cases/shared'
 
@@ -51,7 +50,6 @@ export const useSignIn = () => {
       setTokenValidity(true, response.result.expiresIn)
       setRefreshToken(response.result.refreshToken)
       setAccessToken(response.result.token)
-      sendSignInEvent('local')
       goToCards()
       return
     }
