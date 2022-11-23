@@ -124,13 +124,6 @@
           (eventTimestamp.value - previousEventTimestamp.value),
   )
 
-  watch(
-    () => velocity.value,
-    v => {
-      console.log('DEBUG VELOCITY', v)
-    },
-  )
-
   const direction = computed(() => {
     if (offset.value !== 0) {
       return ~Math.sign(offset.value) ? Direction.Right : Direction.Left
@@ -154,13 +147,6 @@
       (direction.value !== Direction.NA &&
         isTriggered(velocity.value, 0.6) &&
         Math.sign(offset.value) === Math.sign(velocity.value)),
-  )
-
-  watch(
-    () => isSwipeTriggered.value,
-    s => {
-      console.log('DEBUG SWIPE', s)
-    },
   )
 
   const move = (movementX: number, timestamp: number) => {
