@@ -1,13 +1,15 @@
 <template>
   <div
     ref="rootRef"
-    class="origin-bottom touch-manipulation select-none relative group/swipeable"
+    class="origin-bottom touch-manipulation transform-gpu will-change-transform select-none relative group/swipeable"
     :class="disabled && 'pointer-events-none'"
+    :style="styles"
     @mousedown.left="startSwipe(false)"
     @touchstart="startSwipe(true)"
   >
     <div
-      class="w-full h-full transition-all transform-gpu duration-500 ease-out"
+      v-memo="[isIconTriggered, isSwipeTriggered]"
+      class="w-full h-full transition-[filter] will-change-[filter] duration-500 ease-out"
       :class="{
         'blur-[2px]': isIconTriggered && !isSwipeTriggered,
         'blur-sm': isSwipeTriggered,
@@ -18,7 +20,8 @@
 
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
       <div
-        class="transition-transform transform-gpu duration-500 remove-second-child"
+        v-memo="[isIconTriggered, isSwipeTriggered, direction]"
+        class="transition-transform transform-gpu will-change-transform duration-500 remove-second-child"
         :class="isSwipeTriggered && 'scale-125'"
       >
         <CustomTransition type="pop">
@@ -37,13 +40,8 @@
 </template>
 
 <script setup lang="ts">
-  import {
-    TransformProperties,
-    useMotionProperties,
-    useMotionTransitions,
-  } from '@vueuse/motion'
   import { computedWithControl } from '@vueuse/shared'
-  import { computed, onBeforeUnmount, ref, watch } from 'vue'
+  import { computed, onBeforeUnmount, ref } from 'vue'
 
   import { Direction } from '@@/shared/ui-utils'
 
@@ -68,42 +66,45 @@
 
   const rootRef = ref<HTMLDivElement>()
 
-  const springOptions = { type: 'spring', bounce: 0.25 }
-  const keyframesOptions = { type: 'keyframes', duration: 0.1 }
-
   const initialProperties = {
     x: 0,
     rotateZ: 0,
-    scale: 1,
     opacity: 1,
   }
+  const properties = ref({ ...initialProperties })
 
-  const properties = ['x', 'rotateZ', 'scale', 'opacity']
+  const transitionDuration = computed(() => {
+    const p = Math.abs(previousOffset.value)
 
-  const { motionProperties: _motionProperties } = useMotionProperties(
-    rootRef,
-    initialProperties,
-  )
+    return offset.value === 0
+      ? p < 10
+        ? 300
+        : p < 50
+        ? 450
+        : p < 120
+        ? 500
+        : p < 200
+        ? 600
+        : 700
+      : 0
+  })
 
-  const motionProperties = _motionProperties as TransformProperties
+  const styles = computed(() => ({
+    transform: `translateX(${properties.value.x}px) rotateZ(${properties.value.rotateZ}deg)`,
+    opacity: properties.value.opacity,
+    transitionProperty: 'transform opacity',
+    transitionDuration: `${transitionDuration.value}ms`,
+    transitionTimingFunction: 'cubic-bezier(.28,.06,.12,1.2)',
+  }))
 
-  const { push, stop } = useMotionTransitions()
-
-  const stopTransitions = () => stop(properties)
+  const propertiesNames = ['x', 'rotateZ', 'opacity'] as const
+  const stopTransitions = () => (properties.value = { ...initialProperties })
 
   const setMotionProperty =
-    (prop: string) =>
-    (value: number, isKeyframes = false) => {
-      push(
-        prop,
-        value,
-        motionProperties,
-        isKeyframes ? keyframesOptions : springOptions,
-      )
-    }
+    (prop: keyof typeof initialProperties) => (value: number) =>
+      (properties.value[prop] = value)
 
-  const [setX, setRotateZ, setScale, setOpacity] =
-    properties.map(setMotionProperty)
+  const [setX, setRotateZ, setOpacity] = propertiesNames.map(setMotionProperty)
 
   const offset = ref(0)
   const previousOffset = ref(0)
@@ -156,21 +157,18 @@
     offset.value += movementX
     eventTimestamp.value = timestamp
 
-    setX(offset.value, true)
+    setX(offset.value)
     setRotateZ(
       Math.sign(offset.value) * Math.sqrt(Math.abs(offset.value * 0.065)),
-      true,
     )
   }
 
   const startSwipe = (isTouch: boolean) => {
     isHeld.value = true
-    offset.value = motionProperties.x as number
+    offset.value = 0
     lastPageX.value = null
 
     stopTransitions()
-
-    setScale(1.02)
 
     if (isTouch) {
       document.addEventListener('touchend', endSwipe)
@@ -199,7 +197,6 @@
   const returnToStart = () => {
     stopTransitions()
 
-    setScale(initialProperties.scale)
     setX(initialProperties.x)
     setRotateZ(initialProperties.rotateZ)
     setOpacity(initialProperties.opacity)
@@ -210,7 +207,6 @@
   const moveOffTheScreen = () => {
     stopTransitions()
 
-    setScale(initialProperties.scale)
     setOpacity(0)
 
     if (direction.value === Direction.Left) {

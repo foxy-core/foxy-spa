@@ -2,7 +2,7 @@
   <div class="w-full h-full relative">
     <img
       :src="cardInfo.coverImageUrl"
-      class="w-full h-full object-cover scale-105 ease-out group-active/swipeable:scale-100 transition-transform duration-500 transform-gpu touch-callout-none"
+      class="w-full h-full object-cover scale-105 ease-out group-active/swipeable:scale-100 transition-transform duration-500 transform-gpu touch-manipulation select-none touch-callout-none"
       :draggable="false"
     />
 
