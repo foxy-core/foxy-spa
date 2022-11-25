@@ -46,6 +46,7 @@
   }
 
   const cardInfo: CardVM = {
+    id: 'aboba',
     coverImageUrl: annaImage,
     // coverImageUrl: 'https://picsum.photos/720/1280',
     name: 'Анна',
@@ -63,9 +64,5 @@
 <style scoped>
   .icon {
     @apply text-red-500/80 w-28 h-28;
-  }
-
-  .touch-callout-none {
-    -webkit-touch-callout: none !important;
   }
 </style>

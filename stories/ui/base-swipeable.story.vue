@@ -53,8 +53,4 @@
   .icon {
     @apply text-red-500/80 w-28 h-28;
   }
-
-  .touch-callout-none {
-    -webkit-touch-callout: none !important;
-  }
 </style>

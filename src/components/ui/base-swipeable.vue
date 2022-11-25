@@ -1,8 +1,7 @@
 <template>
   <div
-    ref="rootRef"
     class="origin-bottom touch-manipulation transform-gpu will-change-transform select-none relative group/swipeable"
-    :class="disabled && 'pointer-events-none'"
+    :class="(disabled || isDone) && 'pointer-events-none'"
     :style="styles"
     @mousedown.left="startSwipe(false)"
     @touchstart="startSwipe(true)"
@@ -11,8 +10,10 @@
       v-memo="[isIconTriggered, isSwipeTriggered]"
       class="w-full h-full transition-[filter] will-change-[filter] duration-500 ease-out"
       :class="{
-        'blur-[2px]': isIconTriggered && !isSwipeTriggered,
-        'blur-sm': isSwipeTriggered,
+        [animationType === 'blur' ? 'blur-[2px]' : 'brightness-95']:
+          isIconTriggered && !isSwipeTriggered,
+        [animationType === 'blur' ? 'blur-sm' : 'brightness-90']:
+          isSwipeTriggered,
       }"
     >
       <slot :is-held="isHeld"></slot>
@@ -41,27 +42,41 @@
 
 <script setup lang="ts">
   import { computedWithControl } from '@vueuse/shared'
-  import { computed, onBeforeUnmount, ref } from 'vue'
+  import { computed, onBeforeUnmount, ref, watch } from 'vue'
 
   import { Direction } from '@@/shared/ui-utils'
 
   import CustomTransition from './custom-transition.vue'
+
+  export type AnimationType = 'blackout' | 'blur'
+
+  const END_TRANSITION_DURATION = 600
 
   const props = withDefaults(
     defineProps<{
       iconTriggerValue?: number
       swipeTriggerValue?: number
       disabled?: boolean
+      animationType?: AnimationType
     }>(),
     {
       iconTriggerValue: 40,
       swipeTriggerValue: 90,
       disabled: false,
+      animationType: 'blackout',
+    },
+  )
+
+  watch(
+    () => props.disabled,
+    v => {
+      console.log(v)
     },
   )
 
   const emit = defineEmits<{
     (event: 'swipe', direction: 'left' | 'right'): void
+    (event: 'shouldUnmount'): void
   }>()
 
   const rootRef = ref<HTMLDivElement>()
@@ -74,6 +89,10 @@
   const properties = ref({ ...initialProperties })
 
   const transitionDuration = computed(() => {
+    if (isDone.value) {
+      return END_TRANSITION_DURATION
+    }
+
     const p = Math.abs(previousOffset.value)
 
     return offset.value === 0
@@ -113,6 +132,7 @@
   const previousEventTimestamp = ref<number | null>(null)
 
   const isHeld = ref(false)
+  const isDone = ref(false)
 
   const velocity = computedWithControl(
     () => eventTimestamp.value,
@@ -181,11 +201,15 @@
 
   const endSwipe = () => {
     isHeld.value = false
+
     removeListeners()
 
     if (isSwipeTriggered.value) {
       moveOffTheScreen()
       emitSwipe()
+      isDone.value = true
+
+      setTimeout(emitShouldUnmount, END_TRANSITION_DURATION)
     } else {
       returnToStart()
     }
@@ -220,6 +244,10 @@
 
   const emitSwipe = () => {
     emit('swipe', direction.value as 'left' | 'right')
+  }
+
+  const emitShouldUnmount = () => {
+    emit('shouldUnmount')
   }
 
   const lastPageX = ref<number | null>(null)

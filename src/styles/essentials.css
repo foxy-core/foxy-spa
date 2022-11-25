@@ -1,0 +1,5 @@
+@layer utilities {
+  .touch-callout-none {
+    -webkit-touch-callout: none;
+  }
+}

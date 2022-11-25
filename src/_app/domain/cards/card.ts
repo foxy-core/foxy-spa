@@ -6,6 +6,7 @@ export type CardTagVM = {
 }
 
 export type CardVM = {
+  id: string
   coverImageUrl: string
   lookingFor?: LookingFor
   name: string

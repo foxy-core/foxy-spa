@@ -1,9 +1,16 @@
 <template>
-  <div class="w-full h-full relative">
+  <div
+    class="w-full h-full relative select-none bg-gradient-to-br from-surface-300 to-surface-200"
+  >
     <img
       :src="cardInfo.coverImageUrl"
-      class="w-full h-full object-cover scale-105 ease-out group-active/swipeable:scale-100 transition-transform duration-500 transform-gpu touch-manipulation select-none touch-callout-none"
+      class="w-full h-full object-cover touch-manipulation select-none touch-callout-none"
       :draggable="false"
+      :class="
+        scaleTransition &&
+        'scale-105 ease-out group-active/swipeable:scale-100 transition-transform duration-500 transform-gpu'
+      "
+      @contextmenu.passive="undefined"
     />
 
     <div
@@ -65,6 +72,7 @@
 
   defineProps<{
     cardInfo: CardVM
+    scaleTransition?: boolean
   }>()
 
   const lookingForHintMap = {
@@ -81,10 +89,6 @@
 </script>
 
 <style scoped>
-  .touch-callout-none {
-    -webkit-touch-callout: none !important;
-  }
-
   .container-blackout {
     background: linear-gradient(
       to top,
