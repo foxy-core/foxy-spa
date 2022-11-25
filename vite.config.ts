@@ -2,6 +2,7 @@ import * as path from 'path'
 
 import vue from '@vitejs/plugin-vue'
 import { minify as minifyHtml } from 'html-minifier'
+import { nanoid } from 'nanoid'
 import analyze from 'rollup-plugin-analyzer'
 import visualize from 'rollup-plugin-visualizer'
 import unpluginIcons from 'unplugin-icons/vite'
@@ -19,13 +20,35 @@ const minifyHtmlPlugin = (): Plugin => ({
       minifyCSS: true,
       collapseBooleanAttributes: true,
       keepClosingSlash: false,
-      removeComments: true,
       removeAttributeQuotes: true,
     })
 
     return minified
   },
 })
+
+const addVersionToHtmlPlugin = ({
+  name,
+  version,
+}: {
+  name: string
+  version: string
+}): Plugin => ({
+  name: 'foxy:add-version-to-html',
+  transformIndexHtml: source => {
+    const NAME_TEMPLATE = '<!--project-name-->'
+    const VERSION_TEMPLATE = '<!--project-version-->'
+
+    return source
+      .replace(VERSION_TEMPLATE, version)
+      .replace(NAME_TEMPLATE, name)
+  },
+})
+
+const VERSION = nanoid(10)
+const NAME = 'foxy'
+
+console.log('[REVISION]', NAME, VERSION)
 
 export default defineConfig(({ command }) => {
   const IS_BUILD = command === 'build'
@@ -35,13 +58,17 @@ export default defineConfig(({ command }) => {
       vue(),
 
       VitePWA({
-        injectRegister: 'inline',
+        injectRegister: 'auto',
         registerType: 'autoUpdate',
+
+        workbox: {
+          globPatterns: ['**/*.{js,css,html}', '**/*.{woff2,ttf}'],
+        },
 
         manifest: {
           name: 'Foxy',
           short_name: 'Foxy',
-          theme_color: '#fea360',
+          theme_color: '#ff740f',
           lang: 'ru',
           description: 'Made for people to connect',
           display: 'standalone',
@@ -92,6 +119,10 @@ export default defineConfig(({ command }) => {
         },
       }),
 
+      addVersionToHtmlPlugin({
+        version: VERSION,
+        name: NAME,
+      }),
       IS_BUILD && minifyHtmlPlugin(),
 
       analyze(),
